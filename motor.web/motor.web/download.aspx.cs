@@ -17,6 +17,7 @@ namespace motor.web
         protected void Unnamed1_Click(object sender, EventArgs e)
         {
             lblInfo.Text="A link to download the application has been forwarded to your mobile number.";
+            txtMobile.Text = string.Empty;
         }
     }
 }

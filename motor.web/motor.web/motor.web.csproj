@@ -99,6 +99,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="motorpublic.Master" />
+    <Content Include="motorprivate.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -117,6 +118,13 @@
   <ItemGroup>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="motorprivate.Master.cs">
+      <DependentUpon>motorprivate.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="motorprivate.Master.designer.cs">
+      <DependentUpon>motorprivate.Master</DependentUpon>
     </Compile>
     <Compile Include="motorpublic.Master.cs">
       <DependentUpon>motorpublic.Master</DependentUpon>

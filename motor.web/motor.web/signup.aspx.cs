@@ -13,5 +13,16 @@ namespace motor.web
         {
 
         }
+        public void chkAgreement_Validate(object o, ServerValidateEventArgs e)
+        {
+            if (chkAgreement.Checked)
+            {
+                e.IsValid = true;
+            }
+            else
+            {
+                e.IsValid = false;
+            }
+        }
     }
 }

@@ -4,10 +4,11 @@
     <h2>Sign Up</h2>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="mainContent" runat="server">
-    <table width="40%">
+    <table width="60%">
         <colgroup>
-            <col width="30%" />
-            <col width="70%" />
+            <col width="20%" />
+            <col width="40%" />
+            <col width="40%" />
         </colgroup>
         <tr>
             <td>
@@ -19,6 +20,7 @@
                     <asp:ListItem Text="Driver" Value="1" />
                 </asp:DropDownList>
             </td>
+            <td></td>
         </tr>
         <tr>
             <td>
@@ -27,6 +29,9 @@
             <td>
                 <asp:TextBox runat="server" ID="txtFirstname" MaxLength="50" />
             </td>
+            <td>
+                <asp:RequiredFieldValidator ErrorMessage="Please enter firstname" ControlToValidate="txtFirstname" runat="server" ValidationGroup="gpSignup" />
+            </td>
         </tr>
         <tr>
             <td>
@@ -34,37 +39,49 @@
             <td>
                 <asp:TextBox runat="server" ID="txtMiddlename" MaxLength="50" />
             </td>
+            <td></td>
         </tr>
         <tr>
             <td>
                 <asp:Label Text="Lastname:" ID="lblLastname" runat="server" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="txtLastname"  MaxLength="50"/>
+                <asp:TextBox runat="server" ID="txtLastname" MaxLength="50" />
             </td>
+            <td>
+                <asp:RequiredFieldValidator ErrorMessage="Please enter lastname" ControlToValidate="txtLastname" runat="server" ValidationGroup="gpSignup" /></td>
         </tr>
         <tr>
             <td>
                 <asp:Label Text="Email:" ID="lblEmail" runat="server" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="txtEmail" MaxLength="50" />
+                <asp:TextBox runat="server" ID="txtEmail" TextMode="Email" MaxLength="50" />
+            </td>
+            <td>
+                <asp:RequiredFieldValidator ErrorMessage="Please enter email" ControlToValidate="txtEmail" runat="server" ValidationGroup="gpSignup" Display="Dynamic" />
+                <asp:RegularExpressionValidator ErrorMessage="Please enter valid email" ControlToValidate="txtEmail" Display="Dynamic" ValidationExpression="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?" runat="server" ValidationGroup="gpSignup" />
             </td>
         </tr>
         <tr>
             <td>
-                <asp:Label Text="Mobile:" ID="lblMobile" runat="server" />
+                <asp:Label Text="Mobile:(XXX)XXXXXXX" ID="lblMobile" runat="server" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="txtMobile" />
+                <asp:TextBox runat="server" ID="txtMobile" TextMode="Phone" />
             </td>
+            <td><asp:RegularExpressionValidator ID="regExpMobile" Display="Dynamic" ErrorMessage="Please enter valid mobile number" ValidationExpression="\(?\d{3}\)?-? *\d{3}-? *-?\d{4}" ValidationGroup="gpSignup" ControlToValidate="txtMobile" runat="server" />
+                <asp:RequiredFieldValidator Display="Dynamic" ErrorMessage="Please enter phone number" ControlToValidate="txtMobile" runat="server" ValidationGroup="gpSignup" /></td>
         </tr>
         <tr>
             <td>
                 <asp:Label Text="Password:" ID="lblPassword" runat="server" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="txtPassword" TextMode="Password" />
+                <asp:TextBox runat="server" ID="txtPassword" TextMode="Password" MaxLength="8" />
+            </td>
+            <td>
+                <asp:RequiredFieldValidator ErrorMessage="Please enter password" ControlToValidate="txtPassword" runat="server" ValidationGroup="gpSignup" />
             </td>
         </tr>
         <tr>
@@ -485,6 +502,7 @@
                 </asp:DropDownList>
 
             </td>
+            <td></td>
         </tr>
         <tr>
             <td>
@@ -498,18 +516,22 @@
                     <asp:ListItem Text="Others" />
                 </asp:DropDownList>
             </td>
+            <td></td>
         </tr>
         <tr>
 
-            <td colspan="2">
+            <td colspan="3">
                 <asp:CheckBox Text="I agree with Terms of Service" ID="chkAgreement" runat="server" />
+                
+                
             </td>
         </tr>
         <tr>
-            <td></td>
+            <td><asp:CustomValidator runat="server"    OnServerValidate="chkAgreement_Validate" ValidationGroup="gpSignup"  ErrorMessage="Please agree to the terms and service." /></td>
             <td>
-                <asp:Button Text="Register" ID="btnRegister" runat="server" />
+                <asp:Button Text="Register" ID="btnRegister" runat="server" ValidationGroup="gpSignup" />
             </td>
+            <td>&nbsp;</td>
         </tr>
 
     </table>

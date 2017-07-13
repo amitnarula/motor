@@ -10,7 +10,7 @@
         </colgroup>
         <tr>
             <td>
-                <asp:TextBox runat="server" ID="txtMobile" MaxLength="20" />(XXX)XXXXXXX
+                <asp:TextBox runat="server" ID="txtMobile" TextMode="Phone" MaxLength="20" />(XXX)XXXXXXX
 
             </td>
 
