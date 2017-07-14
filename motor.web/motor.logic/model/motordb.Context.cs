@@ -25,6 +25,7 @@ namespace motor.logic.model
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<AuthenticationToken> AuthenticationTokens { get; set; }
         public virtual DbSet<User> Users { get; set; }
     }
 }

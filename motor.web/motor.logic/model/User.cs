@@ -14,6 +14,12 @@ namespace motor.logic.model
     
     public partial class User
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public User()
+        {
+            this.AuthenticationTokens = new HashSet<AuthenticationToken>();
+        }
+    
         public long Id { get; set; }
         public string Firstname { get; set; }
         public string Middlename { get; set; }
@@ -22,8 +28,11 @@ namespace motor.logic.model
         public string Email { get; set; }
         public string Phone { get; set; }
         public string City { get; set; }
-        public int Source { get; set; }
+        public string Source { get; set; }
         public short UserType { get; set; }
         public System.DateTime CreatedOn { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AuthenticationToken> AuthenticationTokens { get; set; }
     }
 }

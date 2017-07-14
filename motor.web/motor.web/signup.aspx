@@ -15,9 +15,9 @@
                 <asp:Label Text="I am a:" runat="server" ID="lblIdentity" />
             </td>
             <td>
-                <asp:DropDownList runat="server">
-                    <asp:ListItem Text="Rider" Value="0" />
-                    <asp:ListItem Text="Driver" Value="1" />
+                <asp:DropDownList runat="server" ID="ddlUserType">
+                    <asp:ListItem Text="Rider" Value="2" />
+                    <asp:ListItem Text="Driver" Value="3" />
                 </asp:DropDownList>
             </td>
             <td></td>
@@ -68,7 +68,7 @@
                 <asp:Label Text="Mobile:(XXX)XXXXXXX" ID="lblMobile" runat="server" />
             </td>
             <td>
-                <asp:TextBox runat="server" ID="txtMobile" TextMode="Phone" />
+                <asp:TextBox runat="server" ID="txtMobile" TextMode="Phone" MaxLength="20" />
             </td>
             <td><asp:RegularExpressionValidator ID="regExpMobile" Display="Dynamic" ErrorMessage="Please enter valid mobile number" ValidationExpression="\(?\d{3}\)?-? *\d{3}-? *-?\d{4}" ValidationGroup="gpSignup" ControlToValidate="txtMobile" runat="server" />
                 <asp:RequiredFieldValidator Display="Dynamic" ErrorMessage="Please enter phone number" ControlToValidate="txtMobile" runat="server" ValidationGroup="gpSignup" /></td>
@@ -529,9 +529,11 @@
         <tr>
             <td><asp:CustomValidator runat="server"    OnServerValidate="chkAgreement_Validate" ValidationGroup="gpSignup"  ErrorMessage="Please agree to the terms and service." /></td>
             <td>
-                <asp:Button Text="Register" ID="btnRegister" runat="server" ValidationGroup="gpSignup" />
+                <asp:Button Text="Register" ID="btnRegister" runat="server" ValidationGroup="gpSignup" OnClick="btnRegister_Click" />
             </td>
-            <td>&nbsp;</td>
+            <td>
+                <asp:Label Text="" ID="lblMessage" runat="server" />
+            </td>
         </tr>
 
     </table>

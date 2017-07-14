@@ -25,6 +25,8 @@ namespace motor.service
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+            
+
         }
     }
 }

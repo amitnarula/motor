@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace motor.logic.logic
 {
-    public class UserManagement : IDB<User>
+    class UserManagement : IDB<User>
     {
         motorEntities dc;
 
@@ -42,6 +42,15 @@ namespace motor.logic.logic
         {
             dc.Entry(obj).State = System.Data.Entity.EntityState.Modified;
             return dc.SaveChanges() > 0;
+        }
+
+        public bool Get(string phoneNumber)
+        {
+            return dc.Users.Any(x => x.Phone.Equals(phoneNumber, StringComparison.InvariantCultureIgnoreCase));
+        }
+
+        public User Get(string phone, string password) {
+            return dc.Users.SingleOrDefault(x => x.Phone.Equals(phone, StringComparison.InvariantCultureIgnoreCase) && x.Password.Equals(password));
         }
     }
 }

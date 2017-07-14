@@ -1,4 +1,8 @@
-﻿using System;
+﻿using motor.logic.common;
+using motor.logic.model;
+using motor.logic.services;
+using motor.web.common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,6 +13,46 @@ namespace motor.web
 {
     public partial class signup : System.Web.UI.Page
     {
+        UserService svc = new UserService();
+        private void RegisterUser()
+        {
+            //check if phone number already exists
+            if (svc.IsPhoneNumberAlreadyExists(txtMobile.Text))
+                lblMessage.Text = "Phone number is already registered, please choose another one.";
+            else
+            {
+                User obj = new User();
+                obj.Firstname = txtFirstname.Text;
+                obj.Lastname = txtLastname.Text;
+                obj.Middlename = txtMiddlename.Text;
+                obj.Phone = txtMobile.Text;
+                obj.Email = txtEmail.Text;
+                obj.CreatedOn = DateTime.UtcNow;
+                obj.City = ddlCity.SelectedValue;
+                obj.Password = CommonUtils.Encrypt(txtPassword.Text);
+                obj.Source = ddlSource.SelectedValue;
+                obj.UserType = Convert.ToInt16(ddlUserType.SelectedValue);
+                if (svc.SaveUser(obj))
+                {
+                    //create session
+                    Session[PageKeys.USERDATA] = obj;
+
+                    switch (obj.UserType)
+                    {
+                        case (short)UserType.Rider:
+                            Response.Redirect(PageKeys.RiderHome);
+                            break;
+                        case (short)UserType.Driver:
+                            Response.Redirect(PageKeys.DriverHome);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -23,6 +67,11 @@ namespace motor.web
             {
                 e.IsValid = false;
             }
+        }
+
+        protected void btnRegister_Click(object sender, EventArgs e)
+        {
+            RegisterUser();
         }
     }
 }

@@ -5,7 +5,9 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="f42adeb8227441ca8442c546f6a5a5cf" Name="Diagram1" >
-        <EntityTypeShape EntityType="motorModel.User" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="motorModel.AuthenticationToken" Width="1.5" PointX="3" PointY="1.375" />
+        <EntityTypeShape EntityType="motorModel.User" Width="1.5" PointX="0.75" PointY="1.5" />
+        <AssociationConnector Association="motorModel.FK_AuthenticationToken_AuthenticationToken" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

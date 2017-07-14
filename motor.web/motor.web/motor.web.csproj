@@ -76,6 +76,15 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -100,6 +109,11 @@
     </Content>
     <Content Include="motorpublic.Master" />
     <Content Include="motorprivate.Master" />
+    <Content Include="layout\styles\fonts\fontawesome-webfont.eot" />
+    <Content Include="layout\styles\fonts\fontawesome-webfont.ttf" />
+    <Content Include="layout\styles\fonts\fontawesome-webfont.woff" />
+    <Content Include="layout\styles\fonts\fontawesome-webfont.woff2" />
+    <Content Include="layout\styles\fonts\FontAwesome.otf" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -110,14 +124,43 @@
   <ItemGroup>
     <Content Include="Global.asax" />
     <Content Include="index.html" />
+    <Content Include="layout\index.html" />
+    <Content Include="layout\scripts\index.html" />
+    <Content Include="layout\scripts\jquery.backtotop.js" />
+    <Content Include="layout\scripts\jquery.min.js" />
+    <Content Include="layout\scripts\jquery.mobilemenu.js" />
+    <Content Include="layout\scripts\jquery.placeholder.min.js" />
+    <Content Include="layout\styles\fontawesome-4.5.0.min.css" />
+    <Content Include="layout\styles\fonts\fontawesome-webfont.svg" />
+    <Content Include="layout\styles\fonts\index.html" />
+    <Content Include="layout\styles\framework.css" />
+    <Content Include="layout\styles\index.html" />
+    <Content Include="layout\styles\layout.css" />
+    <Content Include="login.aspx" />
+    <Content Include="pages\basic-grid.html" />
+    <Content Include="pages\full-width.html" />
+    <Content Include="pages\gallery.html" />
+    <Content Include="pages\index.html" />
+    <Content Include="pages\sidebar-left.html" />
+    <Content Include="pages\sidebar-right.html" />
+    <Content Include="user\driver.aspx" />
+    <Content Include="user\rider.aspx" />
     <Content Include="Web.config" />
     <Content Include="home.aspx" />
     <Content Include="signup.aspx" />
     <Content Include="download.aspx" />
+    <Content Include="admin\admin.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="login.aspx.cs">
+      <DependentUpon>login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="login.aspx.designer.cs">
+      <DependentUpon>login.aspx</DependentUpon>
     </Compile>
     <Compile Include="motorprivate.Master.cs">
       <DependentUpon>motorprivate.Master</DependentUpon>
@@ -155,12 +198,38 @@
     <Compile Include="download.aspx.designer.cs">
       <DependentUpon>download.aspx</DependentUpon>
     </Compile>
+    <Compile Include="admin\admin.aspx.cs">
+      <DependentUpon>admin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="admin\admin.aspx.designer.cs">
+      <DependentUpon>admin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="common\PageKeys.cs" />
+    <Compile Include="user\driver.aspx.cs">
+      <DependentUpon>driver.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="user\driver.aspx.designer.cs">
+      <DependentUpon>driver.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="user\rider.aspx.cs">
+      <DependentUpon>rider.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="user\rider.aspx.designer.cs">
+      <DependentUpon>rider.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="images\" />
-    <Folder Include="layout\" />
-    <Folder Include="pages\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\motor.logic\motor.logic.csproj">
+      <Project>{92252C2F-62FD-46B0-9B7F-8A65D4DCAD7B}</Project>
+      <Name>motor.logic</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

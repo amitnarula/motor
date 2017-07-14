@@ -1,5 +1,6 @@
 ﻿using motor.logic.logic;
 using motor.logic.model;
+using motor.logic.services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,14 +12,21 @@ namespace motor.service.Controllers
 {
     public class UsersController : ApiController
     {
-        UserManagement umgmt;
+        UserService svc;
 
         public UsersController()
         {
-            umgmt = new UserManagement();
+            svc = new UserService();
         }
 
-        // GET: api/Users
+        [HttpPost]
+        [ActionName("Login")]
+        public User Login(string phoneNumber, string password)
+        {
+            return svc.Login(phoneNumber, password);
+        }
+
+        /*// GET: api/Users
         public IEnumerable<User> Get()
         {
             return umgmt.GetList();
@@ -47,6 +55,6 @@ namespace motor.service.Controllers
         {
             var user = umgmt.GetById(id);
             umgmt.Delete(user);
-        }
+        }*/
     }
 }

@@ -55,6 +55,9 @@
     <Compile Include="common\Utilities.cs" />
     <Compile Include="logic\IDB.cs" />
     <Compile Include="logic\UserManagement.cs" />
+    <Compile Include="model\AuthenticationToken.cs">
+      <DependentUpon>motordb.tt</DependentUpon>
+    </Compile>
     <Compile Include="model\motordb.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -74,6 +77,8 @@
       <DependentUpon>motordb.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="services\IService.cs" />
+    <Compile Include="services\UserService.cs" />
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="model\motordb.edmx">
