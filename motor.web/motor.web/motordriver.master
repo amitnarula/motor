@@ -1,0 +1,8 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/motorprivate.Master" AutoEventWireup="true" CodeBehind="motordriver.master.cs" Inherits="motor.web.motordriver" %>
+<asp:Content ID="driverHeadContent" ContentPlaceHolderID="head" runat="server">
+    <asp:ContentPlaceHolder runat="server" ID="driverHead"></asp:ContentPlaceHolder>
+</asp:Content>
+<asp:Content ID="driverBodyContent" ContentPlaceHolderID="body" runat="server">
+    <asp:LinkButton Text="Documents" runat="server" ID="lnkDocuments" OnClick="lnkDocuments_Click" />
+    <asp:ContentPlaceHolder runat="server" ID="driverContent"></asp:ContentPlaceHolder>
+</asp:Content>

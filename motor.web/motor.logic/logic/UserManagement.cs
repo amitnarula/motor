@@ -44,11 +44,11 @@ namespace motor.logic.logic
             return dc.SaveChanges() > 0;
         }
 
-        public bool Get(string phoneNumber)
+        public User Get(string phoneNumber)
         {
-            return dc.Users.Any(x => x.Phone.Equals(phoneNumber, StringComparison.InvariantCultureIgnoreCase));
+            return dc.Users.Where(x => x.Phone.Equals(phoneNumber, StringComparison.InvariantCultureIgnoreCase)).SingleOrDefault();
         }
-
+        
         public User Get(string phone, string password) {
             return dc.Users.SingleOrDefault(x => x.Phone.Equals(phone, StringComparison.InvariantCultureIgnoreCase) && x.Password.Equals(password));
         }

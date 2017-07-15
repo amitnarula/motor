@@ -7,10 +7,12 @@ namespace motor.web.common
 {
     public class PageKeys
     {
-        public readonly static string AdminHome = "~/admin/admin.aspx";
-        public readonly static string LoginPage="~/login.aspx";
-        public readonly static string RiderHome = "~/user/rider.aspx";
-        public readonly static string DriverHome = "~/user/driver.aspx";
-        public readonly static string USERDATA = "USERDATA";
+        internal readonly static string AdminHome = "~/admin/admin.aspx";
+        internal readonly static string LoginPage="~/login.aspx";
+        internal readonly static string RiderHome = "~/user/rider.aspx";
+        internal readonly static string DriverHome = "~/user/driver.aspx";
+        internal readonly static string USERDATA = "USERDATA";
+        internal readonly static string UnAuthorizedPage="~/unauthorized.aspx";
+        internal readonly static string DriverDocumentsPage="~/user/driverDocuments.aspx";
     }
 }

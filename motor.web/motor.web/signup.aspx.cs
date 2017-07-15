@@ -24,7 +24,7 @@ namespace motor.web
                 User obj = new User();
                 obj.Firstname = txtFirstname.Text;
                 obj.Lastname = txtLastname.Text;
-                obj.Middlename = txtMiddlename.Text;
+                obj.Middlename = txtMiddlename.Text ?? null;
                 obj.Phone = txtMobile.Text;
                 obj.Email = txtEmail.Text;
                 obj.CreatedOn = DateTime.UtcNow;
@@ -32,7 +32,11 @@ namespace motor.web
                 obj.Password = CommonUtils.Encrypt(txtPassword.Text);
                 obj.Source = ddlSource.SelectedValue;
                 obj.UserType = Convert.ToInt16(ddlUserType.SelectedValue);
-                if (svc.SaveUser(obj))
+                obj.IsEmailVerified = false;
+
+                string userActivationUrl = Request.Url.AbsoluteUri.Replace("signup.aspx", "activate.aspx?activationCode=" + CommonUtils.EncryptParameter(obj.Email) + "&pad=" + CommonUtils.EncryptParameter(obj.Phone));
+
+                if (svc.RegisterUser(obj, userActivationUrl))
                 {
                     //create session
                     Session[PageKeys.USERDATA] = obj;

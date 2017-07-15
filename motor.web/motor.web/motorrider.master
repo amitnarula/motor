@@ -1,0 +1,7 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/motorprivate.Master" AutoEventWireup="true" CodeBehind="motorrider.master.cs" Inherits="motor.web.motorrider" %>
+<asp:Content ID="riderHeadContent" ContentPlaceHolderID="head" runat="server">
+    <asp:ContentPlaceHolder runat="server" ID="riderHead"></asp:ContentPlaceHolder>
+</asp:Content>
+<asp:Content ID="riderBodyContent" ContentPlaceHolderID="body" runat="server">
+    <asp:ContentPlaceHolder runat="server" ID="riderContent"></asp:ContentPlaceHolder>
+</asp:Content>

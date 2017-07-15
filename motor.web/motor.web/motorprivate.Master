@@ -5,13 +5,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
+    
     <asp:ContentPlaceHolder ID="head" runat="server">
+        
     </asp:ContentPlaceHolder>
 </head>
 <body>
     <form id="form1" runat="server">
     <div>
-        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        <asp:Label Text="" ID="lblMessage" runat="server" />
+        <asp:LinkButton Text="Logout" ID="lnkLogout" CausesValidation="false" runat="server" OnClick="lnkLogout_Click" />
+        <asp:HyperLink NavigateUrl="~/user/profile.aspx" ID="hypLnkProfile"  runat="server" >Profile</asp:HyperLink>
+        <asp:ContentPlaceHolder ID="body" runat="server">
         
         </asp:ContentPlaceHolder>
     </div>

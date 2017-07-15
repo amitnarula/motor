@@ -10,6 +10,6 @@
 namespace motor.web.user {
     
     
-    public partial class rider {
+    public partial class driverDocuments {
     }
 }

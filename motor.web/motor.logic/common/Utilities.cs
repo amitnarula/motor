@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
@@ -19,6 +20,18 @@ namespace motor.logic.common
 
     public class CommonUtils
     {
+        public static string EncryptParameter(string stringValue)
+        {
+            byte[] stringByteArray = System.Text.Encoding.UTF8.GetBytes(stringValue);
+            return Convert.ToBase64String(stringByteArray);
+        }
+        
+        public static string DecryptParameter(string encryptedValue)
+        {
+            byte[] encodedDataAsBytes = Convert.FromBase64String(encryptedValue);
+            return System.Text.Encoding.UTF8.GetString(encodedDataAsBytes);
+        }
+
         public static string Encrypt(string clearText)
         {
             string EncryptionKey = "MAKV2SPBNI99212";
@@ -63,8 +76,34 @@ namespace motor.logic.common
             return cipherText;
         }
 
-        public static void SendActivationEmail(string firstname, string lastname,string email)
+        private static void SendEmail(string to, string body, string subject)
         {
+            using (MailMessage mm = new MailMessage("SENDER@GMAIL.COM", to))
+            {
+                mm.Subject = subject;
+                mm.Body = body;
+                mm.IsBodyHtml = true;
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = "smtp.gmail.com";
+                smtp.EnableSsl = true;
+                NetworkCredential NetworkCred = new NetworkCredential("SENDER@GMAIL.COM", "SENDERPASSWORD");
+                //smtp.UseDefaultCredentials = true;
+                smtp.Credentials = NetworkCred;
+                smtp.Port = 587;
+                smtp.Send(mm);
+            }
+        }
+
+        public static void SendActivationEmail(string firstname, string lastname,string email,string activationUrl)
+        {
+            string subject = "Account activation";
+            string body = "Hello " + firstname + ","+lastname;
+            body += "<br /><br />Please click the following link to activate your account";
+            body += "<br /><a href = '" + activationUrl + "'>Click here to activate your account.</a>";
+            body += "<br /><br />Thanks";
+
+            SendEmail(email, body, subject);
+            
             
         }
     }

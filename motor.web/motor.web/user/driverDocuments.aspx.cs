@@ -1,7 +1,4 @@
-﻿using motor.logic.model;
-using motor.logic.services;
-using motor.web.common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace motor.web.user
 {
-    public partial class rider : System.Web.UI.Page
+    public partial class driverDocuments : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {

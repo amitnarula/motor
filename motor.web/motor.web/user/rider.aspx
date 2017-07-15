@@ -1,5 +1,6 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/motorprivate.Master" AutoEventWireup="true" CodeBehind="rider.aspx.cs" Inherits="motor.web.user.rider" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/motorrider.Master" AutoEventWireup="true" CodeBehind="rider.aspx.cs" Inherits="motor.web.user.rider" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="riderHead" runat="server">
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+<asp:Content ID="Content2" ContentPlaceHolderID="riderContent" runat="server">
+    
 </asp:Content>

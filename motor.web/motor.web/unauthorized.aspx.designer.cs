@@ -7,9 +7,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace motor.web.user {
+namespace motor.web {
     
     
-    public partial class rider {
+    public partial class unauthorized {
     }
 }

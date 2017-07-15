@@ -28,6 +28,7 @@
           <Property Name="City" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Source" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="UserType" Type="smallint" Nullable="false" />
+          <Property Name="IsEmailVerified" Type="bit" Nullable="false" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
         </EntityType>
         <Association Name="FK_AuthenticationToken_AuthenticationToken">
@@ -90,6 +91,7 @@
           <Property Name="UserType" Type="Int16" Nullable="false" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="AuthenticationTokens" Relationship="motorModel.FK_AuthenticationToken_AuthenticationToken" FromRole="User" ToRole="AuthenticationToken" />
+          <Property Name="IsEmailVerified" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_AuthenticationToken_AuthenticationToken">
           <End Type="motorModel.User" Role="User" Multiplicity="1">
@@ -124,6 +126,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="motorModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="IsEmailVerified" ColumnName="IsEmailVerified" />
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
                 <ScalarProperty Name="UserType" ColumnName="UserType" />
                 <ScalarProperty Name="Source" ColumnName="Source" />

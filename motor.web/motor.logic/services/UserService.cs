@@ -24,18 +24,32 @@ namespace motor.logic.services
 
         public bool IsPhoneNumberAlreadyExists(string phoneNumber)
         {
-            return usrMgmt.Get(phoneNumber);
+            return usrMgmt.Get(phoneNumber) != null;
         }
 
-        public bool SaveUser(User obj)
+        public bool RegisterUser(User obj,string activationUrl)
         {
             bool isUserAdded = usrMgmt.Add(obj);
             if (isUserAdded)
             {
-                CommonUtils.SendActivationEmail(obj.Firstname,obj.Lastname);
+                //TODO:CommonUtils.SendActivationEmail(obj.Firstname,obj.Lastname,obj.Email, activationUrl);
             }
             return isUserAdded;
         }
 
+        public bool UpdateUser(User obj)
+        {
+            return usrMgmt.Update(obj);
+        }
+
+        public User GetByPhoneNumber(string phoneNumber)
+        {
+            return usrMgmt.Get(phoneNumber);
+        }
+
+        public User Get(long id)
+        {
+            return usrMgmt.GetById(id);
+        }
     }
 }
