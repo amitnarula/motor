@@ -8,6 +8,8 @@
         <EntityTypeShape EntityType="motorModel.AuthenticationToken" Width="1.5" PointX="3" PointY="1.375" />
         <EntityTypeShape EntityType="motorModel.User" Width="1.5" PointX="0.75" PointY="1.5" />
         <AssociationConnector Association="motorModel.FK_AuthenticationToken_AuthenticationToken" />
+        <EntityTypeShape EntityType="motorModel.DriverDocument" Width="1.5" PointX="3" PointY="5.125" />
+        <AssociationConnector Association="motorModel.FK_DriverDocuments_Users" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -14,5 +14,9 @@ namespace motor.web.common
         internal readonly static string USERDATA = "USERDATA";
         internal readonly static string UnAuthorizedPage="~/unauthorized.aspx";
         internal readonly static string DriverDocumentsPage="~/user/driverDocuments.aspx";
+        internal static string GetImageHandlerUrl()
+        {
+            return "~/image.ashx?";
+        }
     }
 }

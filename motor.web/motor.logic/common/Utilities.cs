@@ -18,6 +18,19 @@ namespace motor.logic.common
         Driver=3
     }
 
+    public enum DocumentType
+    {
+        VehicleImage1,
+        VehicleImage2,
+        LicenseImage
+    }
+
+    public enum DocumentStatus
+    {
+        Pending,
+        Verified
+    }
+
     public class CommonUtils
     {
         public static string EncryptParameter(string stringValue)

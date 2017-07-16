@@ -12,9 +12,12 @@ namespace motor.logic.services
     public class UserService
     {
         UserManagement usrMgmt = null;
+        DriverDocumentManagement docMgmt = null;
+
         public UserService()
         {
             usrMgmt = new UserManagement();
+            docMgmt = new DriverDocumentManagement();
         }
         public User Login(string phone, string password)
         {
@@ -51,5 +54,71 @@ namespace motor.logic.services
         {
             return usrMgmt.GetById(id);
         }
+
+        public DriverDocument GetByUserId(long userId)
+        {
+            return docMgmt.GetByUserId(userId);
+        }
+
+        public bool InsertDocumentInfo(DriverDocument obj)
+        {
+            return docMgmt.Add(obj);
+        }
+
+        public bool UpdateDocumentInfo(DriverDocument obj)
+        {
+            bool isSaved;
+
+            isSaved = docMgmt.Update(obj);
+
+            return isSaved;
+        }
+
+        public IEnumerable<DriverDocument> GetAllDocuments()
+        {
+           return docMgmt.GetList();
+        }
+
+        public bool SaveDocumentImage(long id,byte[] imageData, DocumentType docType)
+        {
+            DriverDocument doc = docMgmt.GetById(id);
+            switch (docType)
+            {
+                case DocumentType.VehicleImage1:
+                    doc.VehiclePicture1 = imageData;
+                    break;
+                case DocumentType.VehicleImage2:
+                    doc.VehiclePicture2 = imageData;
+                    break;
+                case DocumentType.LicenseImage:
+                    doc.LicensePicture = imageData;
+                    break;
+                default:
+                    break;
+            }
+            return docMgmt.Update(doc);
+        }
+
+        public byte[] GetDocumentImage(DocumentType type, long documentId)
+        {
+            DriverDocument doc = docMgmt.GetById(documentId);
+            byte[] bytes = null;
+            switch (type)
+            {
+                case DocumentType.VehicleImage1:
+                    bytes = doc.VehiclePicture1;
+                    break;
+                case DocumentType.VehicleImage2:
+                    bytes = doc.VehiclePicture2;
+                    break;
+                case DocumentType.LicenseImage:
+                    bytes = doc.LicensePicture;
+                    break;
+                default:
+                    break;
+            }
+            return bytes;
+        }
+        
     }
 }

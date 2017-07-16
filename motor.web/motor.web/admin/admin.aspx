@@ -2,4 +2,5 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="adminHead" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="adminContent" runat="server">
+    
 </asp:Content>

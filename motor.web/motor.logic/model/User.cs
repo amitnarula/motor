@@ -18,6 +18,7 @@ namespace motor.logic.model
         public User()
         {
             this.AuthenticationTokens = new HashSet<AuthenticationToken>();
+            this.DriverDocuments = new HashSet<DriverDocument>();
         }
     
         public long Id { get; set; }
@@ -35,5 +36,7 @@ namespace motor.logic.model
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AuthenticationToken> AuthenticationTokens { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DriverDocument> DriverDocuments { get; set; }
     }
 }

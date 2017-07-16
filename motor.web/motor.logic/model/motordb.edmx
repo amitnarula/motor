@@ -14,6 +14,19 @@
           <Property Name="UserId" Type="bigint" Nullable="false" />
           <Property Name="Expires" Type="datetime" Nullable="false" />
         </EntityType>
+        <EntityType Name="DriverDocuments">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="bigint" Nullable="false" />
+          <Property Name="SSN" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="LicenseNumber" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="VehiclePicture1" Type="varbinary(max)" />
+          <Property Name="VehiclePicture2" Type="varbinary(max)" />
+          <Property Name="LicensePicture" Type="varbinary(max)" />
+          <Property Name="Status" Type="smallint" Nullable="false" />
+        </EntityType>
         <EntityType Name="Users">
           <Key>
             <PropertyRef Name="Id" />
@@ -28,8 +41,8 @@
           <Property Name="City" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Source" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="UserType" Type="smallint" Nullable="false" />
-          <Property Name="IsEmailVerified" Type="bit" Nullable="false" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="IsEmailVerified" Type="bit" Nullable="false" />
         </EntityType>
         <Association Name="FK_AuthenticationToken_AuthenticationToken">
           <End Role="Users" Type="Self.Users" Multiplicity="1">
@@ -45,12 +58,31 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DriverDocuments_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="DriverDocuments" Type="Self.DriverDocuments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DriverDocuments">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="motorModelStoreContainer">
           <EntitySet Name="AuthenticationTokens" EntityType="Self.AuthenticationTokens" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DriverDocuments" EntityType="Self.DriverDocuments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_AuthenticationToken_AuthenticationToken" Association="Self.FK_AuthenticationToken_AuthenticationToken">
             <End Role="Users" EntitySet="Users" />
             <End Role="AuthenticationTokens" EntitySet="AuthenticationTokens" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DriverDocuments_Users" Association="Self.FK_DriverDocuments_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="DriverDocuments" EntitySet="DriverDocuments" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -63,6 +95,11 @@
           <AssociationSet Name="FK_AuthenticationToken_AuthenticationToken" Association="motorModel.FK_AuthenticationToken_AuthenticationToken">
             <End Role="User" EntitySet="Users" />
             <End Role="AuthenticationToken" EntitySet="AuthenticationTokens" />
+          </AssociationSet>
+          <EntitySet Name="DriverDocuments" EntityType="motorModel.DriverDocument" />
+          <AssociationSet Name="FK_DriverDocuments_Users" Association="motorModel.FK_DriverDocuments_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="DriverDocument" EntitySet="DriverDocuments" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="AuthenticationToken">
@@ -92,6 +129,7 @@
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="AuthenticationTokens" Relationship="motorModel.FK_AuthenticationToken_AuthenticationToken" FromRole="User" ToRole="AuthenticationToken" />
           <Property Name="IsEmailVerified" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="DriverDocuments" Relationship="motorModel.FK_DriverDocuments_Users" FromRole="User" ToRole="DriverDocument" />
         </EntityType>
         <Association Name="FK_AuthenticationToken_AuthenticationToken">
           <End Type="motorModel.User" Role="User" Multiplicity="1">
@@ -103,6 +141,34 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="AuthenticationToken">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DriverDocument">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int64" Nullable="false" />
+          <Property Name="SSN" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="LicenseNumber" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="VehiclePicture1" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="VehiclePicture2" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="LicensePicture" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="User" Relationship="motorModel.FK_DriverDocuments_Users" FromRole="DriverDocument" ToRole="User" />
+          <Property Name="Status" Type="Int16" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_DriverDocuments_Users">
+          <End Type="motorModel.User" Role="User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="motorModel.DriverDocument" Role="DriverDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DriverDocument">
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
@@ -137,6 +203,20 @@
                 <ScalarProperty Name="Lastname" ColumnName="Lastname" />
                 <ScalarProperty Name="Middlename" ColumnName="Middlename" />
                 <ScalarProperty Name="Firstname" ColumnName="Firstname" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DriverDocuments">
+            <EntityTypeMapping TypeName="motorModel.DriverDocument">
+              <MappingFragment StoreEntitySet="DriverDocuments">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="LicensePicture" ColumnName="LicensePicture" />
+                <ScalarProperty Name="VehiclePicture2" ColumnName="VehiclePicture2" />
+                <ScalarProperty Name="VehiclePicture1" ColumnName="VehiclePicture1" />
+                <ScalarProperty Name="LicenseNumber" ColumnName="LicenseNumber" />
+                <ScalarProperty Name="SSN" ColumnName="SSN" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

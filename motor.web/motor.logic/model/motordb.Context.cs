@@ -27,5 +27,6 @@ namespace motor.logic.model
     
         public virtual DbSet<AuthenticationToken> AuthenticationTokens { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<DriverDocument> DriverDocuments { get; set; }
     }
 }

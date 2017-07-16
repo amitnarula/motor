@@ -53,9 +53,13 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="common\Utilities.cs" />
+    <Compile Include="logic\DriverDocumentManagement.cs" />
     <Compile Include="logic\IDB.cs" />
     <Compile Include="logic\UserManagement.cs" />
     <Compile Include="model\AuthenticationToken.cs">
+      <DependentUpon>motordb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="model\DriverDocument.cs">
       <DependentUpon>motordb.tt</DependentUpon>
     </Compile>
     <Compile Include="model\motordb.Context.cs">
@@ -99,6 +103,7 @@
       <DependentUpon>motordb.edmx</DependentUpon>
       <LastGenOutput>motordb.Context.cs</LastGenOutput>
     </Content>
+    <Content Include="model\motordb.edmx.sql" />
     <Content Include="model\motordb.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>motordb.edmx</DependentUpon>
