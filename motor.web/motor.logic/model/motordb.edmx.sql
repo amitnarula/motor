@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 07/15/2017 13:43:50
+-- Date Created: 07/16/2017 13:32:18
 -- Generated from EDMX file: C:\source\motor\motor.web\motor.logic\model\motordb.edmx
 -- --------------------------------------------------
 
@@ -20,6 +20,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_AuthenticationToken_AuthenticationToken]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[AuthenticationTokens] DROP CONSTRAINT [FK_AuthenticationToken_AuthenticationToken];
 GO
+IF OBJECT_ID(N'[dbo].[FK_DriverDocuments_Users]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[DriverDocuments] DROP CONSTRAINT [FK_DriverDocuments_Users];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -27,6 +30,9 @@ GO
 
 IF OBJECT_ID(N'[dbo].[AuthenticationTokens]', 'U') IS NOT NULL
     DROP TABLE [dbo].[AuthenticationTokens];
+GO
+IF OBJECT_ID(N'[dbo].[DriverDocuments]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[DriverDocuments];
 GO
 IF OBJECT_ID(N'[dbo].[Users]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Users];
@@ -62,6 +68,19 @@ CREATE TABLE [dbo].[Users] (
 );
 GO
 
+-- Creating table 'DriverDocuments'
+CREATE TABLE [dbo].[DriverDocuments] (
+    [Id] bigint IDENTITY(1,1) NOT NULL,
+    [UserId] bigint  NOT NULL,
+    [SSN] nvarchar(12)  NOT NULL,
+    [LicenseNumber] nvarchar(10)  NOT NULL,
+    [VehiclePicture1] varbinary(max)  NULL,
+    [VehiclePicture2] varbinary(max)  NULL,
+    [LicensePicture] varbinary(max)  NULL,
+    [Status] smallint  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -75,6 +94,12 @@ GO
 -- Creating primary key on [Id] in table 'Users'
 ALTER TABLE [dbo].[Users]
 ADD CONSTRAINT [PK_Users]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'DriverDocuments'
+ALTER TABLE [dbo].[DriverDocuments]
+ADD CONSTRAINT [PK_DriverDocuments]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -94,6 +119,21 @@ GO
 -- Creating non-clustered index for FOREIGN KEY 'FK_AuthenticationToken_AuthenticationToken'
 CREATE INDEX [IX_FK_AuthenticationToken_AuthenticationToken]
 ON [dbo].[AuthenticationTokens]
+    ([UserId]);
+GO
+
+-- Creating foreign key on [UserId] in table 'DriverDocuments'
+ALTER TABLE [dbo].[DriverDocuments]
+ADD CONSTRAINT [FK_DriverDocuments_Users]
+    FOREIGN KEY ([UserId])
+    REFERENCES [dbo].[Users]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_DriverDocuments_Users'
+CREATE INDEX [IX_FK_DriverDocuments_Users]
+ON [dbo].[DriverDocuments]
     ([UserId]);
 GO
 
