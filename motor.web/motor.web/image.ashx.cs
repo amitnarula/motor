@@ -26,7 +26,9 @@ namespace motor.web
 
             context.Response.Clear();
             context.Response.ContentType = "image/jpeg";
-            context.Response.BinaryWrite(userSvc.GetDocumentImage(type, Convert.ToInt64(documentId)));
+            var imageData = userSvc.GetDocumentImage(type, Convert.ToInt64(documentId));
+            if (imageData != null)
+                context.Response.BinaryWrite(imageData);
 
             
         }
