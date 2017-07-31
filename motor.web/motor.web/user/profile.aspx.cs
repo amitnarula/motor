@@ -77,5 +77,10 @@ namespace motor.web.user
         {
             SaveProfile();
         }
+
+        protected void Page_Unload(object sender, EventArgs e)
+        {
+
+        }
     }
 }

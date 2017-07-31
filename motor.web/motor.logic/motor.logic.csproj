@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="common\Utilities.cs" />
+    <Compile Include="logic\AuthTokenManagement.cs" />
     <Compile Include="logic\DriverDocumentManagement.cs" />
     <Compile Include="logic\IDB.cs" />
     <Compile Include="logic\UserManagement.cs" />

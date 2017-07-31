@@ -13,11 +13,13 @@ namespace motor.logic.services
     {
         UserManagement usrMgmt = null;
         DriverDocumentManagement docMgmt = null;
+        AuthTokenManagement authMgmt = null;
 
         public UserService()
         {
             usrMgmt = new UserManagement();
             docMgmt = new DriverDocumentManagement();
+            authMgmt = new AuthTokenManagement();
         }
         public User Login(string phone, string password)
         {
@@ -118,6 +120,31 @@ namespace motor.logic.services
                     break;
             }
             return bytes;
+        }
+
+        public bool AddUpdateAuthenticationToken(AuthenticationToken token)
+        {
+            var authenticationToken = authMgmt.GetByToken(token.Token);
+            bool isSaved;
+
+            if (authenticationToken == null)
+            {
+                isSaved = authMgmt.Add(token);
+            }
+            else
+            {
+                authenticationToken.Token = token.Token;
+                authenticationToken.Expires = token.Expires;
+                isSaved = authMgmt.Update(authenticationToken);
+
+            }
+            
+            return isSaved;
+        }
+
+        public AuthenticationToken GetAuthenticationToken(string token)
+        {
+            return authMgmt.GetByToken(token);
         }
         
     }

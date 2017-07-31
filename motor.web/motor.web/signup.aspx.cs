@@ -3,10 +3,7 @@ using motor.logic.model;
 using motor.logic.services;
 using motor.web.common;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
+using System.Configuration;
 using System.Web.UI.WebControls;
 
 namespace motor.web
@@ -33,8 +30,8 @@ namespace motor.web
                 obj.Source = ddlSource.SelectedValue;
                 obj.UserType = Convert.ToInt16(ddlUserType.SelectedValue);
                 obj.IsEmailVerified = false;
-
-                string userActivationUrl = Request.Url.AbsoluteUri.Replace("signup.aspx", "activate.aspx?activationCode=" + CommonUtils.EncryptParameter(obj.Email) + "&pad=" + CommonUtils.EncryptParameter(obj.Phone));
+                
+                string userActivationUrl = ConfigurationManager.AppSettings["motorHostBaseAddress"]+ "activate.aspx?activationCode=" + CommonUtils.EncryptParameter(obj.Email) + "&pad=" + CommonUtils.EncryptParameter(obj.Phone);
 
                 if (svc.RegisterUser(obj, userActivationUrl))
                 {
