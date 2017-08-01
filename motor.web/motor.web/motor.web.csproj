@@ -86,6 +86,10 @@
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.105.2.3\lib\net45\RestSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
@@ -110,6 +114,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="admin\manageDriverDocuments.aspx" />
+    <Content Include="admin\testexplorer.aspx" />
     <Content Include="packages.config" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -180,6 +185,13 @@
     </Compile>
     <Compile Include="admin\manageDriverDocuments.aspx.designer.cs">
       <DependentUpon>manageDriverDocuments.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="admin\testexplorer.aspx.cs">
+      <DependentUpon>testexplorer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="admin\testexplorer.aspx.designer.cs">
+      <DependentUpon>testexplorer.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

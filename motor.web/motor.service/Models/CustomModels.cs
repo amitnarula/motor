@@ -1,4 +1,5 @@
-﻿using System;
+﻿using motor.logic.common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -29,5 +30,52 @@ namespace motor.service.Models
         public string City { get; set; }
         public string Source { get; set; }
         public short UserType { get; set; }
+    }
+
+    public class DriverDocumentInfoRequest
+    {
+        public string SSN { set; get; }
+        public string LicenseNumber { get; set; }
+
+    }
+
+    public class DriverDocumentDataRequest
+    {
+        public DocumentType DocType { get; set; }
+        public byte[] DocData { get; set; }
+    }
+
+    public class SaveProfileRequest
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string MiddleName { get; set; }
+        public string City { get; set; }
+    }
+
+    public class ProfileResponse
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string MiddleName { get; set; }
+        public string City { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
+        
+    }
+
+    public class DriverDocumentResponse
+    {
+        public string SSN { get; set; }
+        public string LicenseNumber { get; set; }
+        public byte[] LicenseImage { get; set; }
+        public byte[] VehicleImage1 { get; set; }
+        public byte[] VehicleImage2 { get; set; }
+    }
+
+    public class ChangePasswordRequest
+    {
+        public string OldPassword { get; set; }
+        public string NewPassword { get; set; }
     }
 }

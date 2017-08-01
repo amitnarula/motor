@@ -57,7 +57,7 @@ namespace motor.logic.services
             return usrMgmt.GetById(id);
         }
 
-        public DriverDocument GetByUserId(long userId)
+        public DriverDocument GetDocumentByUserId(long userId)
         {
             return docMgmt.GetByUserId(userId);
         }

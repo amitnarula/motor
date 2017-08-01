@@ -32,7 +32,7 @@ namespace motor.web.user
             DriverDocument doc = null;
             if (usr != null)
             {
-                doc = userService.GetByUserId(usr.Id);
+                doc = userService.GetDocumentByUserId(usr.Id);
 
             }
             return doc;

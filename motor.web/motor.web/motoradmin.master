@@ -4,5 +4,6 @@
 </asp:Content>
 <asp:Content ID="adminBodyContent" ContentPlaceHolderID="body" runat="server">
     <asp:HyperLink NavigateUrl="~/admin/manageDriverDocuments.aspx" Text="Manage driver documents" runat="server" />
+    <asp:HyperLink NavigateUrl="~/admin/testexplorer.aspx" Text="API Tests" runat="server" />
     <asp:ContentPlaceHolder runat="server" ID="adminContent"></asp:ContentPlaceHolder>
 </asp:Content>

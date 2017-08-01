@@ -22,6 +22,100 @@ namespace motor.service.Controllers
             return CommonUtils.Encrypt(userId.ToString());
         }
 
+        private string FetchAuthenticationTokenFromRequest()
+        {
+            string authenticationToken = Request.Headers.GetValues("authToken").SingleOrDefault();
+
+            if (authenticationToken == null)
+                throw new Exception("Invalid authentication token.");
+
+            return authenticationToken;
+        }
+
+        private User GetUserByToken(string authTotken)
+        {
+            var authToken = svc.GetAuthenticationToken(authTotken);
+            if (authToken != null)
+                return authToken.User;
+
+            return null;
+        }
+
+        private bool SaveDocumentInfo(string authenticationToken,string ssn,string licenseNumber)
+        {
+            //make sure the user token is for the driver type user
+            var user = GetUserByToken(authenticationToken);
+            if (user == null)
+                throw new ArgumentException("user");
+
+            if (user.UserType != (short)UserType.Driver)
+                throw new Exception("The requested user is not a driver.");
+
+            DriverDocument doc = svc.GetDocumentByUserId(user.Id);
+            if (doc == null)
+            {
+                doc = new DriverDocument();
+                doc.UserId = user.Id;
+                doc.LicenseNumber = licenseNumber;
+                doc.SSN = ssn;
+                doc.Status = (short)DocumentStatus.Pending;
+                svc.InsertDocumentInfo(doc);
+            }
+            else
+            {
+                doc.LicenseNumber = licenseNumber;
+                doc.SSN = ssn;
+                svc.UpdateDocumentInfo(doc);
+            }
+            return true;
+        }
+
+        private bool SaveDocument(string authenticationToken, byte[] documentData, DocumentType docType)
+        {
+            var user = GetUserByToken(authenticationToken);
+            if (user == null)
+                throw new Exception("No user found with the token provided");
+
+            if (user.UserType != (short)UserType.Driver)
+                throw new Exception("The requested user is not a driver.");
+
+            DriverDocument doc = svc.GetDocumentByUserId(user.Id);
+            if (doc == null)
+                throw new Exception("No basic document info was found for the user");
+
+            return svc.SaveDocumentImage(doc.Id, documentData, docType);
+
+        }
+
+        private bool SaveUserProfile(string authenticationToken, string firstName,string middleName, string lastName, string city)
+        {
+            var user = GetUserByToken(authenticationToken);
+            if (user == null)
+                throw new ArgumentException("user");
+
+            user.Firstname = firstName;
+            user.Lastname = lastName;
+            user.City = city;
+            user.Middlename = middleName;
+
+            return svc.UpdateUser(user);
+        }
+
+        private bool ChangePassword(string authenticationToken,string oldPassword, string newPassword)
+        {
+            var user = GetUserByToken(authenticationToken);
+            oldPassword = CommonUtils.Encrypt(oldPassword);
+            if (oldPassword == user.Password)
+            {
+                user.Password = CommonUtils.Encrypt(newPassword);
+                if (svc.UpdateUser(user))
+                    return true;
+                return false;
+            }
+            else
+                return false;
+        }
+
         public UsersController()
         {
             svc = new UserService();
@@ -78,6 +172,84 @@ namespace motor.service.Controllers
             
             return svc.RegisterUser(userObj, activationUrl);
         }
-        
+
+        [AuthenticateActionFilter]
+        public bool ChangePassword(ChangePasswordRequest request)
+        {
+            string authenticationToken = FetchAuthenticationTokenFromRequest();
+            return ChangePassword(authenticationToken, request.OldPassword, request.NewPassword);
+        }
+
+        [AuthenticateActionFilter]
+        public bool SaveDriverDocumentInfo(DriverDocumentInfoRequest request)
+        {
+            string authenticationToken = FetchAuthenticationTokenFromRequest();
+            return SaveDocumentInfo(authenticationToken, request.SSN, request.LicenseNumber);
+
+        }
+
+        [AuthenticateActionFilter]
+        public bool SaveDriverDocument(DriverDocumentDataRequest request)
+        {
+            string authenticationToken = FetchAuthenticationTokenFromRequest();
+            return SaveDocument(authenticationToken, request.DocData, request.DocType);
+        }
+
+        [AuthenticateActionFilter]
+        public bool SaveProfile(SaveProfileRequest request)
+        {
+            string authenticationToken = FetchAuthenticationTokenFromRequest();
+            return SaveUserProfile(authenticationToken,
+                request.FirstName, request.MiddleName, request.LastName, request.City);
+        }
+
+        [AuthenticateActionFilter]
+        public ProfileResponse GetUserProfile(string authenticationToken)
+        {
+            var user = GetUserByToken(authenticationToken);
+            if (user != null)
+            {
+                return new ProfileResponse()
+                {
+                    FirstName = user.Firstname,
+                    LastName = user.Lastname,
+                    MiddleName = user.Middlename,
+                    City = user.City,
+                    Email = user.Email,
+                    Phone = user.Phone
+                };
+            }
+            return null;
+
+        }
+
+        [AuthenticateActionFilter]
+        public DriverDocumentResponse GetDriverDocument(string authenticationToken)
+        {
+            var user = GetUserByToken(authenticationToken);
+            if (user == null)
+                throw new Exception("user not found for authentication token provided");
+
+            if (user.UserType != (short)UserType.Driver)
+                throw new Exception("user found is not a driver.");
+
+            DriverDocument doc = user.DriverDocuments.SingleOrDefault();
+
+            if (doc != null)
+            {
+                return new DriverDocumentResponse()
+                {
+                    SSN = doc.SSN,
+                    LicenseImage = doc.LicensePicture,
+                    LicenseNumber = doc.LicenseNumber,
+                    VehicleImage1 = doc.VehiclePicture1,
+                    VehicleImage2 = doc.VehiclePicture2
+                };
+            }
+            return null;
+
+
+
+        }
     }
 }
