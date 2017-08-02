@@ -93,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
+    <None Include="App.release.config" />
     <None Include="model\motordb.edmx.diagram">
       <DependentUpon>motordb.edmx</DependentUpon>
     </None>
