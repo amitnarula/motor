@@ -251,5 +251,13 @@ namespace motor.service.Controllers
 
 
         }
+
+        [AuthenticateActionFilter]
+        public bool AddCard(PaymentCardRequest request)
+        {
+            var user = GetUserByToken(authenticationToken);
+            if (user == null)
+                throw new Exception("user not found for authentication token provided");
+        }
     }
 }

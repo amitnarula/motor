@@ -115,6 +115,7 @@
   <ItemGroup>
     <Content Include="admin\manageDriverDocuments.aspx" />
     <Content Include="admin\testexplorer.aspx" />
+    <Content Include="common\PaymentCards.ascx" />
     <Content Include="packages.config" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -192,6 +193,13 @@
     </Compile>
     <Compile Include="admin\testexplorer.aspx.designer.cs">
       <DependentUpon>testexplorer.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="common\PaymentCards.ascx.cs">
+      <DependentUpon>PaymentCards.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="common\PaymentCards.ascx.designer.cs">
+      <DependentUpon>PaymentCards.ascx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

@@ -56,6 +56,7 @@
     <Compile Include="logic\AuthTokenManagement.cs" />
     <Compile Include="logic\DriverDocumentManagement.cs" />
     <Compile Include="logic\IDB.cs" />
+    <Compile Include="logic\PaymentCardManagement.cs" />
     <Compile Include="logic\UserManagement.cs" />
     <Compile Include="model\AuthenticationToken.cs">
       <DependentUpon>motordb.tt</DependentUpon>
@@ -77,6 +78,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>motordb.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="model\PaymentCard.cs">
+      <DependentUpon>motordb.tt</DependentUpon>
     </Compile>
     <Compile Include="model\User.cs">
       <DependentUpon>motordb.tt</DependentUpon>

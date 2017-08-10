@@ -78,4 +78,16 @@ namespace motor.service.Models
         public string OldPassword { get; set; }
         public string NewPassword { get; set; }
     }
+
+    public class PaymentCardRequest
+    {
+        public string CardNumber { get; set; }
+        public int ExpiryMonth { get; set; }
+
+        public int ExpiryYear { get; set; }
+
+        public string Name { get; set; }
+
+        public string CVV { get; set; }
+    }
 }

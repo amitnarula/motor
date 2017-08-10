@@ -19,6 +19,7 @@ namespace motor.logic.model
         {
             this.AuthenticationTokens = new HashSet<AuthenticationToken>();
             this.DriverDocuments = new HashSet<DriverDocument>();
+            this.PaymentCards = new HashSet<PaymentCard>();
         }
     
         public long Id { get; set; }
@@ -38,5 +39,7 @@ namespace motor.logic.model
         public virtual ICollection<AuthenticationToken> AuthenticationTokens { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DriverDocument> DriverDocuments { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PaymentCard> PaymentCards { get; set; }
     }
 }

@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 07/16/2017 13:32:18
--- Generated from EDMX file: C:\source\motor\motor.web\motor.logic\model\motordb.edmx
+-- Date Created: 08/10/2017 17:21:03
+-- Generated from EDMX file: D:\old\Proyectos\motor\motor.web\motor.logic\model\motordb.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -20,8 +20,11 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_AuthenticationToken_AuthenticationToken]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[AuthenticationTokens] DROP CONSTRAINT [FK_AuthenticationToken_AuthenticationToken];
 GO
-IF OBJECT_ID(N'[dbo].[FK_DriverDocuments_Users]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[DriverDocuments] DROP CONSTRAINT [FK_DriverDocuments_Users];
+IF OBJECT_ID(N'[motorModelStoreContainer].[FK_DriverDocuments_Users]', 'F') IS NOT NULL
+    ALTER TABLE [motorModelStoreContainer].[DriverDocuments] DROP CONSTRAINT [FK_DriverDocuments_Users];
+GO
+IF OBJECT_ID(N'[dbo].[FK_PaymentCards_Users]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[PaymentCards] DROP CONSTRAINT [FK_PaymentCards_Users];
 GO
 
 -- --------------------------------------------------
@@ -31,11 +34,14 @@ GO
 IF OBJECT_ID(N'[dbo].[AuthenticationTokens]', 'U') IS NOT NULL
     DROP TABLE [dbo].[AuthenticationTokens];
 GO
-IF OBJECT_ID(N'[dbo].[DriverDocuments]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[DriverDocuments];
+IF OBJECT_ID(N'[dbo].[PaymentCards]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[PaymentCards];
 GO
 IF OBJECT_ID(N'[dbo].[Users]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Users];
+GO
+IF OBJECT_ID(N'[motorModelStoreContainer].[DriverDocuments]', 'U') IS NOT NULL
+    DROP TABLE [motorModelStoreContainer].[DriverDocuments];
 GO
 
 -- --------------------------------------------------
@@ -81,6 +87,16 @@ CREATE TABLE [dbo].[DriverDocuments] (
 );
 GO
 
+-- Creating table 'PaymentCards'
+CREATE TABLE [dbo].[PaymentCards] (
+    [Id] bigint  NOT NULL,
+    [UserId] bigint  NOT NULL,
+    [CardNumber] nvarchar(16)  NOT NULL,
+    [CardName] nvarchar(100)  NOT NULL,
+    [Expiry] datetime  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -100,6 +116,12 @@ GO
 -- Creating primary key on [Id] in table 'DriverDocuments'
 ALTER TABLE [dbo].[DriverDocuments]
 ADD CONSTRAINT [PK_DriverDocuments]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'PaymentCards'
+ALTER TABLE [dbo].[PaymentCards]
+ADD CONSTRAINT [PK_PaymentCards]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -134,6 +156,21 @@ GO
 -- Creating non-clustered index for FOREIGN KEY 'FK_DriverDocuments_Users'
 CREATE INDEX [IX_FK_DriverDocuments_Users]
 ON [dbo].[DriverDocuments]
+    ([UserId]);
+GO
+
+-- Creating foreign key on [UserId] in table 'PaymentCards'
+ALTER TABLE [dbo].[PaymentCards]
+ADD CONSTRAINT [FK_PaymentCards_Users]
+    FOREIGN KEY ([UserId])
+    REFERENCES [dbo].[Users]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_PaymentCards_Users'
+CREATE INDEX [IX_FK_PaymentCards_Users]
+ON [dbo].[PaymentCards]
     ([UserId]);
 GO
 

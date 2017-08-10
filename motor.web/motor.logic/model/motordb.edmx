@@ -14,9 +14,15 @@
           <Property Name="UserId" Type="bigint" Nullable="false" />
           <Property Name="Expires" Type="datetime" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'motor.dbo.DriverDocuments' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="DriverDocuments">
           <Key>
             <PropertyRef Name="Id" />
+            
+            
+            
+            
           </Key>
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserId" Type="bigint" Nullable="false" />
@@ -26,6 +32,16 @@
           <Property Name="VehiclePicture2" Type="varbinary(max)" />
           <Property Name="LicensePicture" Type="varbinary(max)" />
           <Property Name="Status" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PaymentCards">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" Nullable="false" />
+          <Property Name="UserId" Type="bigint" Nullable="false" />
+          <Property Name="CardNumber" Type="nvarchar" MaxLength="16" Nullable="false" />
+          <Property Name="CardName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Expiry" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -41,8 +57,8 @@
           <Property Name="City" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Source" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="UserType" Type="smallint" Nullable="false" />
-          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
           <Property Name="IsEmailVerified" Type="bit" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
         </EntityType>
         <Association Name="FK_AuthenticationToken_AuthenticationToken">
           <End Role="Users" Type="Self.Users" Multiplicity="1">
@@ -72,10 +88,36 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PaymentCards_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PaymentCards" Type="Self.PaymentCards" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PaymentCards">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="motorModelStoreContainer">
           <EntitySet Name="AuthenticationTokens" EntityType="Self.AuthenticationTokens" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="DriverDocuments" EntityType="Self.DriverDocuments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaymentCards" EntityType="Self.PaymentCards" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DriverDocuments" EntityType="Self.DriverDocuments" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [DriverDocuments].[Id] AS [Id], 
+    [DriverDocuments].[UserId] AS [UserId], 
+    [DriverDocuments].[SSN] AS [SSN], 
+    [DriverDocuments].[LicenseNumber] AS [LicenseNumber], 
+    [DriverDocuments].[VehiclePicture1] AS [VehiclePicture1], 
+    [DriverDocuments].[VehiclePicture2] AS [VehiclePicture2], 
+    [DriverDocuments].[LicensePicture] AS [LicensePicture], 
+    [DriverDocuments].[Status] AS [Status]
+    FROM [dbo].[DriverDocuments] AS [DriverDocuments]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_AuthenticationToken_AuthenticationToken" Association="Self.FK_AuthenticationToken_AuthenticationToken">
             <End Role="Users" EntitySet="Users" />
             <End Role="AuthenticationTokens" EntitySet="AuthenticationTokens" />
@@ -83,6 +125,10 @@
           <AssociationSet Name="FK_DriverDocuments_Users" Association="Self.FK_DriverDocuments_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="DriverDocuments" EntitySet="DriverDocuments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaymentCards_Users" Association="Self.FK_PaymentCards_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="PaymentCards" EntitySet="PaymentCards" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -100,6 +146,11 @@
           <AssociationSet Name="FK_DriverDocuments_Users" Association="motorModel.FK_DriverDocuments_Users">
             <End Role="User" EntitySet="Users" />
             <End Role="DriverDocument" EntitySet="DriverDocuments" />
+          </AssociationSet>
+          <EntitySet Name="PaymentCards" EntityType="motorModel.PaymentCard" />
+          <AssociationSet Name="FK_PaymentCards_Users" Association="motorModel.FK_PaymentCards_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="PaymentCard" EntitySet="PaymentCards" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="AuthenticationToken">
@@ -130,6 +181,7 @@
           <NavigationProperty Name="AuthenticationTokens" Relationship="motorModel.FK_AuthenticationToken_AuthenticationToken" FromRole="User" ToRole="AuthenticationToken" />
           <Property Name="IsEmailVerified" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="DriverDocuments" Relationship="motorModel.FK_DriverDocuments_Users" FromRole="User" ToRole="DriverDocument" />
+          <NavigationProperty Name="PaymentCards" Relationship="motorModel.FK_PaymentCards_Users" FromRole="User" ToRole="PaymentCard" />
         </EntityType>
         <Association Name="FK_AuthenticationToken_AuthenticationToken">
           <End Type="motorModel.User" Role="User" Multiplicity="1">
@@ -169,6 +221,31 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="DriverDocument">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PaymentCard">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="UserId" Type="Int64" Nullable="false" />
+          <Property Name="CardNumber" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="CardName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Expiry" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="User" Relationship="motorModel.FK_PaymentCards_Users" FromRole="PaymentCard" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_PaymentCards_Users">
+          <End Type="motorModel.User" Role="User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="motorModel.PaymentCard" Role="PaymentCard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PaymentCard">
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
@@ -216,6 +293,17 @@
                 <ScalarProperty Name="VehiclePicture1" ColumnName="VehiclePicture1" />
                 <ScalarProperty Name="LicenseNumber" ColumnName="LicenseNumber" />
                 <ScalarProperty Name="SSN" ColumnName="SSN" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentCards">
+            <EntityTypeMapping TypeName="motorModel.PaymentCard">
+              <MappingFragment StoreEntitySet="PaymentCards">
+                <ScalarProperty Name="Expiry" ColumnName="Expiry" />
+                <ScalarProperty Name="CardName" ColumnName="CardName" />
+                <ScalarProperty Name="CardNumber" ColumnName="CardNumber" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
