@@ -42,5 +42,17 @@ namespace motor.logic.logic
         {
             return dc.PaymentCards.Where(x => x.UserId == userId).ToList();
         }
+
+        public PaymentCard GetByCardNumber(string cardNumber)
+        {
+            return dc.PaymentCards.Where(x => x.CardNumber == cardNumber).SingleOrDefault();
+        }
+
+        public bool Delete(long id)
+        {
+            dc.PaymentCards.Remove(GetById(id));
+            return dc.SaveChanges() > 0;
+            
+        }
     }
 }

@@ -253,11 +253,64 @@ namespace motor.service.Controllers
         }
 
         [AuthenticateActionFilter]
-        public bool AddCard(PaymentCardRequest request)
+        public bool AddUpdateCard(PaymentCardRequest request)
         {
+            string authenticationToken = FetchAuthenticationTokenFromRequest();
             var user = GetUserByToken(authenticationToken);
             if (user == null)
                 throw new Exception("user not found for authentication token provided");
+
+            //fetch card by card number
+
+
+            PaymentCard card = null;
+            card = svc.GetPaymentCard(request.CardNumber);
+            if (card == null)
+                card = new PaymentCard();
+           
+            card.CardName = request.Name;
+            card.CardNumber = request.CardNumber;
+            card.Expiry = new DateTime(request.ExpiryYear, request.ExpiryMonth, 1);
+            card.UserId = user.Id;
+
+            return svc.AddUpdatePaymentCard(card);
+            
+        }
+
+        [AuthenticateActionFilter]
+        [HttpGet]
+        public PaymentCardResponse GetPaymentCards()
+        {
+            string authenticationToken = FetchAuthenticationTokenFromRequest();
+            var user = GetUserByToken(authenticationToken);
+            if (user == null)
+                throw new Exception("user not found for authentication token provided");
+            PaymentCardResponse response = new PaymentCardResponse();
+            response.PaymentCards=new List<PaymentCardResponseData>();
+            var result = svc.GetPaymentCards(user.Id);
+            if (result != null)
+            {
+                result.ForEach((itm) =>
+                {
+                    response.PaymentCards.Add(new PaymentCardResponseData() {
+                        CardName = itm.CardName,
+                        CardNumber = itm.CardNumber,
+                        ExpiryMonth=itm.Expiry.Month,
+                        ExpiryYear=itm.Expiry.Year,
+                        Id = itm.Id
+                    });
+                });
+            }
+
+            
+            return response;
+        }
+
+        [AuthenticateActionFilter]
+        [HttpDelete]
+        public bool RemovePaymentCard(RemovePaymentCardRequest request)
+        {
+            return svc.DeletePaymentCard(request.CardId);
         }
     }
 }

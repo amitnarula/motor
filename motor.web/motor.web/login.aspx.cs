@@ -18,12 +18,26 @@ namespace motor.web
     public partial class login : System.Web.UI.Page
     {
         private UserService svc = new UserService();
-        
+        RESTFx restFx = new RESTFx();
+
         private void Login()
         {
             var loginResult = svc.Login(txtMobile.Text, txtPassword.Text);
             if (loginResult != null)
             {
+                //Generate Authentication token
+                string authenticationToken = CommonUtils.Encrypt(loginResult.Id.ToString()); //generate token from user id
+
+                //Update/insert authentication token
+                svc.AddUpdateAuthenticationToken(new AuthenticationToken()
+                {
+                    Token = authenticationToken,
+                    Expires = DateTime.UtcNow.AddDays(30), // valid for 30 days
+                    UserId = loginResult.Id
+                });
+
+
+
                 //create session
                 Session[PageKeys.USERDATA] = loginResult;
 
@@ -47,6 +61,7 @@ namespace motor.web
             else
                 lblErrorMessage.Text = "Invalid credentials. Please try again";
         }
+    
 
         protected void Page_Load(object sender, EventArgs e)
         {

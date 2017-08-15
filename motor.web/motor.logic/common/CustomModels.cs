@@ -1,11 +1,13 @@
 ﻿using motor.logic.common;
+using motor.logic.model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace motor.service.Models
+namespace motor.logic.common
 {
+    
     public class LoginRequest
     {
         public string PhoneNumber { get; set; }
@@ -82,6 +84,7 @@ namespace motor.service.Models
     public class PaymentCardRequest
     {
         public string CardNumber { get; set; }
+
         public int ExpiryMonth { get; set; }
 
         public int ExpiryYear { get; set; }
@@ -89,5 +92,30 @@ namespace motor.service.Models
         public string Name { get; set; }
 
         public string CVV { get; set; }
+    }
+
+    public class PaymentCardResponseData
+    {
+        public long Id { get; set; }
+        public string CardName { get; set; }
+        public string CardNumber { get; set; }
+        public string CVV { get; set; }
+        public int ExpiryMonth { get; set; }
+        public int ExpiryYear { get; set; }
+    }
+
+    public class PaymentCardResponse : IBaseResponse
+    {
+        
+        public List<PaymentCardResponseData> PaymentCards
+        {
+            get;
+            set;
+        }
+        
+    }
+    public class RemovePaymentCardRequest
+    {
+        public long CardId { get; set; }
     }
 }

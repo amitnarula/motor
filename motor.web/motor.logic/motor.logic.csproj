@@ -52,6 +52,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="common\BaseResponse.cs" />
+    <Compile Include="common\CustomModels.cs" />
     <Compile Include="common\Utilities.cs" />
     <Compile Include="logic\AuthTokenManagement.cs" />
     <Compile Include="logic\DriverDocumentManagement.cs" />

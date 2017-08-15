@@ -14,15 +14,9 @@
           <Property Name="UserId" Type="bigint" Nullable="false" />
           <Property Name="Expires" Type="datetime" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'motor.dbo.DriverDocuments' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="DriverDocuments">
           <Key>
             <PropertyRef Name="Id" />
-            
-            
-            
-            
           </Key>
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserId" Type="bigint" Nullable="false" />
@@ -37,7 +31,7 @@ warning 6002: The table/view 'motor.dbo.DriverDocuments' does not have a primary
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="bigint" Nullable="false" />
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserId" Type="bigint" Nullable="false" />
           <Property Name="CardNumber" Type="nvarchar" MaxLength="16" Nullable="false" />
           <Property Name="CardName" Type="nvarchar" MaxLength="100" Nullable="false" />
@@ -57,8 +51,8 @@ warning 6002: The table/view 'motor.dbo.DriverDocuments' does not have a primary
           <Property Name="City" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Source" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="UserType" Type="smallint" Nullable="false" />
-          <Property Name="IsEmailVerified" Type="bit" Nullable="false" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="IsEmailVerified" Type="bit" Nullable="false" />
         </EntityType>
         <Association Name="FK_AuthenticationToken_AuthenticationToken">
           <End Role="Users" Type="Self.Users" Multiplicity="1">
@@ -104,20 +98,9 @@ warning 6002: The table/view 'motor.dbo.DriverDocuments' does not have a primary
         </Association>
         <EntityContainer Name="motorModelStoreContainer">
           <EntitySet Name="AuthenticationTokens" EntityType="Self.AuthenticationTokens" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DriverDocuments" EntityType="Self.DriverDocuments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymentCards" EntityType="Self.PaymentCards" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="DriverDocuments" EntityType="Self.DriverDocuments" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [DriverDocuments].[Id] AS [Id], 
-    [DriverDocuments].[UserId] AS [UserId], 
-    [DriverDocuments].[SSN] AS [SSN], 
-    [DriverDocuments].[LicenseNumber] AS [LicenseNumber], 
-    [DriverDocuments].[VehiclePicture1] AS [VehiclePicture1], 
-    [DriverDocuments].[VehiclePicture2] AS [VehiclePicture2], 
-    [DriverDocuments].[LicensePicture] AS [LicensePicture], 
-    [DriverDocuments].[Status] AS [Status]
-    FROM [dbo].[DriverDocuments] AS [DriverDocuments]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_AuthenticationToken_AuthenticationToken" Association="Self.FK_AuthenticationToken_AuthenticationToken">
             <End Role="Users" EntitySet="Users" />
             <End Role="AuthenticationTokens" EntitySet="AuthenticationTokens" />

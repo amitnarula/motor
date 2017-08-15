@@ -162,6 +162,7 @@
     <Content Include="pages\sidebar-left.html" />
     <Content Include="pages\sidebar-right.html" />
     <Content Include="user\driver.aspx" />
+    <Content Include="user\paymentCards.aspx" />
     <Content Include="user\profile.aspx" />
     <Content Include="user\rider.aspx" />
     <Content Include="Web.config" />
@@ -201,6 +202,7 @@
     <Compile Include="common\PaymentCards.ascx.designer.cs">
       <DependentUpon>PaymentCards.ascx</DependentUpon>
     </Compile>
+    <Compile Include="common\RESTFx.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -285,6 +287,13 @@
     </Compile>
     <Compile Include="user\driver.aspx.designer.cs">
       <DependentUpon>driver.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="user\paymentCards.aspx.cs">
+      <DependentUpon>paymentCards.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="user\paymentCards.aspx.designer.cs">
+      <DependentUpon>paymentCards.aspx</DependentUpon>
     </Compile>
     <Compile Include="user\profile.aspx.cs">
       <DependentUpon>profile.aspx</DependentUpon>

@@ -14,12 +14,14 @@ namespace motor.logic.services
         UserManagement usrMgmt = null;
         DriverDocumentManagement docMgmt = null;
         AuthTokenManagement authMgmt = null;
+        PaymentCardManagement paymentCardMgmt = null;
 
         public UserService()
         {
             usrMgmt = new UserManagement();
             docMgmt = new DriverDocumentManagement();
             authMgmt = new AuthTokenManagement();
+            paymentCardMgmt = new PaymentCardManagement();
         }
         public User Login(string phone, string password)
         {
@@ -140,6 +142,33 @@ namespace motor.logic.services
             }
             
             return isSaved;
+        }
+
+        public bool AddUpdatePaymentCard(PaymentCard card)
+        {
+            if (card.Id == 0)//new card
+            {
+                return paymentCardMgmt.Add(card);
+            }
+            else
+            {
+                return paymentCardMgmt.Update(card);
+            }
+        }
+
+        public PaymentCard GetPaymentCard(string cardNumber)
+        {
+            return paymentCardMgmt.GetByCardNumber(cardNumber);
+        }
+
+        public List<PaymentCard> GetPaymentCards(long userId)
+        {
+            return paymentCardMgmt.GetByUserId(userId);
+        }
+
+        public bool DeletePaymentCard(long id)
+        {
+            return paymentCardMgmt.Delete(id);
         }
 
         public AuthenticationToken GetAuthenticationToken(string token)
