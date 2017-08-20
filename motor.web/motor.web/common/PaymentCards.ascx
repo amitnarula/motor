@@ -1,4 +1,5 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="PaymentCards.ascx.cs" Inherits="motor.web.common.PaymentCards" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="PaymentCards.ascx.cs" Inherits="motor.web.common.PaymentCards"  %>
+
 <table width="40%">
     <tr>
         <td>
@@ -56,7 +57,7 @@
     </tr>
 
 </table>
-<asp:GridView runat="server" AutoGenerateColumns="False" ID="grdPaymentCards" OnRowCommand="grdPaymentCards_RowCommand">
+<%--<asp:GridView runat="server" AutoGenerateColumns="False" ID="grdPaymentCards" OnRowCommand="grdPaymentCards_RowCommand">
     <Columns>
         <asp:BoundField DataField="CardNumber" HeaderText="Card Number" />
         <asp:BoundField DataField="CardName" HeaderText="Name" />
@@ -69,5 +70,20 @@
             </ItemTemplate>
         </asp:TemplateField>
     </Columns>
-</asp:GridView>
+</asp:GridView>--%>
 
+
+<motor:motorGridView runat="server" AutoGenerateColumns="False" PageSize="1" AllowCustomPaging="true" AllowSorting="true" ID="grdPaymentCards" OnRowCommand="grdPaymentCards_RowCommand">
+    <Columns>
+        <asp:BoundField DataField="CardNumber" HeaderText="Card Number" />
+        <asp:BoundField DataField="CardName" HeaderText="Name" />
+        <asp:BoundField DataField="ExpiryMonth" HeaderText="Expiry Month" />
+        <asp:BoundField DataField="ExpiryYear" HeaderText="Expiry Year" />
+        <asp:TemplateField>
+            <ItemTemplate>
+                <asp:Button Text="Edit" ID="btnEdit" CommandName="editCard" CommandArgument='<%#Bind("Id") %>' runat="server" />
+                <asp:Button Text="Delete" OnClientClick="return confirm('Do you want to remove this card?')" ID="btnDelete" CommandName="deleteCard" CommandArgument='<%#Bind("Id") %>' runat="server" />
+            </ItemTemplate>
+        </asp:TemplateField>
+    </Columns>
+</motor:motorGridView>

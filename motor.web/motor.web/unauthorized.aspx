@@ -3,4 +3,5 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
     <h2>You are not authorized to view this content.</h2>
+    <asp:Label Text="[reason]" ID="lblMessageReason" runat="server" />
 </asp:Content>

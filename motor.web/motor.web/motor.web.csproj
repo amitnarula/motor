@@ -113,9 +113,11 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="admin\manageDocumentStatus.aspx" />
     <Content Include="admin\manageDriverDocuments.aspx" />
     <Content Include="admin\testexplorer.aspx" />
     <Content Include="common\PaymentCards.ascx" />
+    <Content Include="error.aspx" />
     <Content Include="packages.config" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -181,6 +183,13 @@
     <Compile Include="activate.aspx.designer.cs">
       <DependentUpon>activate.aspx</DependentUpon>
     </Compile>
+    <Compile Include="admin\manageDocumentStatus.aspx.cs">
+      <DependentUpon>manageDocumentStatus.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="admin\manageDocumentStatus.aspx.designer.cs">
+      <DependentUpon>manageDocumentStatus.aspx</DependentUpon>
+    </Compile>
     <Compile Include="admin\manageDriverDocuments.aspx.cs">
       <DependentUpon>manageDriverDocuments.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -195,6 +204,7 @@
     <Compile Include="admin\testexplorer.aspx.designer.cs">
       <DependentUpon>testexplorer.aspx</DependentUpon>
     </Compile>
+    <Compile Include="common\motorGrid.cs" />
     <Compile Include="common\PaymentCards.ascx.cs">
       <DependentUpon>PaymentCards.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -203,6 +213,13 @@
       <DependentUpon>PaymentCards.ascx</DependentUpon>
     </Compile>
     <Compile Include="common\RESTFx.cs" />
+    <Compile Include="error.aspx.cs">
+      <DependentUpon>error.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="error.aspx.designer.cs">
+      <DependentUpon>error.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

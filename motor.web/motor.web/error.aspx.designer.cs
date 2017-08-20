@@ -10,15 +10,15 @@
 namespace motor.web {
     
     
-    public partial class unauthorized {
+    public partial class error {
         
         /// <summary>
-        /// lblMessageReason control.
+        /// litMessageReason control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblMessageReason;
+        protected global::System.Web.UI.WebControls.Literal litMessageReason;
     }
 }

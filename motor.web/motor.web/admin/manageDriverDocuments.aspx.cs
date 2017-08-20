@@ -14,6 +14,11 @@ namespace motor.web
     public partial class manageDriverDocuments : System.Web.UI.Page
     {
         UserService usrSvc = new UserService();
+        
+        private string GetDocumentStatus(short status)
+        {
+            return Enum.GetName(typeof(DocumentStatus), status);
+        }
         private void LoadDriverDocuments()
         {
             grdDriverDocuments.DataSource = usrSvc.GetAllDocuments();
@@ -30,16 +35,30 @@ namespace motor.web
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                long documentId = ((DriverDocument)e.Row.DataItem).Id;
+                DriverDocument doc = ((DriverDocument)e.Row.DataItem);
+
+                long documentId = doc.Id;
                 Image imgVehImg1 = e.Row.FindControl("imgVehImg1") as Image;
-                imgVehImg1.ImageUrl = PageKeys.GetImageHandlerUrl() + "type=" + DocumentType.VehicleImage1.ToString() + "&docId=" + documentId;
+                imgVehImg1.ImageUrl = PageKeys.GetImageHandlerUrl(PageKeys.ImageHandlerActions.Document) + "type=" + DocumentType.VehicleImage1.ToString() + "&docId=" + documentId;
 
                 Image imgVehImg2 = e.Row.FindControl("imgVehImg2") as Image;
-                imgVehImg2.ImageUrl = PageKeys.GetImageHandlerUrl() + "type=" + DocumentType.VehicleImage2.ToString() + "&docId=" + documentId;
+                imgVehImg2.ImageUrl = PageKeys.GetImageHandlerUrl(PageKeys.ImageHandlerActions.Document) + "type=" + DocumentType.VehicleImage2.ToString() + "&docId=" + documentId;
 
                 Image imgVehImg3 = e.Row.FindControl("imgVehImg3") as Image;
-                imgVehImg3.ImageUrl = PageKeys.GetImageHandlerUrl() + "type=" + DocumentType.LicenseImage.ToString() + "&docId=" + documentId;
+                imgVehImg3.ImageUrl = PageKeys.GetImageHandlerUrl(PageKeys.ImageHandlerActions.Document) + "type=" + DocumentType.LicenseImage.ToString() + "&docId=" + documentId;
 
+                Label lblStatus = e.Row.FindControl("lblDocumentStatus") as Label;
+                lblStatus.Text = GetDocumentStatus(doc.Status);
+
+            }
+        }
+
+        protected void grdDriverDocuments_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "action")
+            {
+                var docId = Convert.ToInt64(e.CommandArgument);
+                Response.Redirect(PageKeys.ManageDriverDocumentStatusPage + "?docId=" + docId);
             }
         }
     }

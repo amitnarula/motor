@@ -20,13 +20,18 @@ namespace motor.web.common
         RestClient client = new RestClient(ConfigurationManager.AppSettings["motorHostServiceAddress"]); //base request url
         public IRestResponse DoRequest(Method method, string resource, object data, string authenticationToken)
         {
-            RestRequest request = new RestRequest(resource, method);
-            request.AddJsonBody(data);
-            request.AddHeader("authToken", authenticationToken);
+            RestRequest request = PrepareRequest(method, resource, data, authenticationToken);
 
             return client.Execute(request);
         }
-        
+        public static RestRequest PrepareRequest(Method method, string resource, object data, string authenticationToken)
+        {
+            RestRequest request = new RestRequest(resource, method);
+            request.AddJsonBody(data);
+            request.AddHeader("authToken", authenticationToken);
+            return request;
+        }
+
     }
 
     public class PaymentCardsRESTFx : IRESTFx<PaymentCardResponse>
@@ -34,11 +39,11 @@ namespace motor.web.common
         RestClient client = new RestClient(ConfigurationManager.AppSettings["motorHostServiceAddress"]); //base request url
         public IRestResponse<PaymentCardResponse> DoRequest(Method method, string resource, object data, string authenticationToken)
         {
-            RestRequest request = new RestRequest(resource, method);
-            request.AddJsonBody(data);
-            request.AddHeader("authToken", authenticationToken);
+            RestRequest request = RESTFx.PrepareRequest(method, resource, data, authenticationToken);
 
             return client.Execute<PaymentCardResponse>(request);
         }
+
+        
     }
 }

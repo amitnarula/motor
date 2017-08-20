@@ -38,6 +38,7 @@ namespace motor.logic.common
     {
         public string SSN { set; get; }
         public string LicenseNumber { get; set; }
+        public string VehicleNumber { get; set; }
 
     }
 
@@ -53,6 +54,11 @@ namespace motor.logic.common
         public string LastName { get; set; }
         public string MiddleName { get; set; }
         public string City { get; set; }
+    }
+
+    public class SaveProfilePictureRequest
+    {
+        public byte[] ProfilePicture { get; set; }
     }
 
     public class ProfileResponse

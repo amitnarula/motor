@@ -22,6 +22,7 @@ namespace motor.logic.model
         public byte[] VehiclePicture2 { get; set; }
         public byte[] LicensePicture { get; set; }
         public short Status { get; set; }
+        public string VehicleNumber { get; set; }
     
         public virtual User User { get; set; }
     }

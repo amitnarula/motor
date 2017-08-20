@@ -20,7 +20,9 @@ namespace motor.web
             {
                 User usr = (User)Session[PageKeys.USERDATA];
                 if (usr != null && usr.IsEmailVerified == false)
-                    lblMessage.Text = "Please verify your email first.";
+                {
+                    Response.Redirect(PageKeys.ErrorPage + "?msg=Please verify your email first.");
+                }
                 else
                     lblMessage.Text = "Welcome," + usr.Firstname + " " + usr.Lastname;
             }

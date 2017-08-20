@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace motor.web
+namespace motor.web.admin
 {
     public partial class admin : System.Web.UI.Page
     {

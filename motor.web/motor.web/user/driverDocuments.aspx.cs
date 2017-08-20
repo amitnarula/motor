@@ -67,6 +67,13 @@ namespace motor.web.user
             bytes = br.ReadBytes((Int32)fs.Length);
             if (userService.SaveDocumentImage(doc.Id, bytes, docType))
                 lblMessage.Text = "Image uploaded successfully";
+
+            //if all the document/images have been uploaded send the email
+            if (doc.VehiclePicture1 != null && doc.VehiclePicture2 != null && doc.LicensePicture != null)
+            {
+                User usr = GetLoggedInUser();
+                CommonUtils.SendEmail(EmailTemplate.DocumentsReceived, usr.Email, usr.Firstname, usr.Lastname);
+            }
             
         }
 
@@ -75,7 +82,7 @@ namespace motor.web.user
             return (User)Session[PageKeys.USERDATA];
         }
 
-        private void LoadDriverDocument()
+        private void LoadDriverDocuments()
         {
             DriverDocument doc = GetDriverDocument();
             if (doc == null)
@@ -84,10 +91,11 @@ namespace motor.web.user
             {
                 txtSSN.Text = doc.SSN;
                 txtLicenseNumber.Text = doc.LicenseNumber;
-
-                imgPreviewVehPic1.ImageUrl = PageKeys.GetImageHandlerUrl()+"type="+DocumentType.VehicleImage1.ToString()+"&docId="+doc.Id;
-                imgPreviewVehPic2.ImageUrl = PageKeys.GetImageHandlerUrl() + "type=" + DocumentType.VehicleImage2.ToString() + "&docId=" + doc.Id;
-                imgPreviewLicense.ImageUrl = PageKeys.GetImageHandlerUrl() + "type=" + DocumentType.LicenseImage.ToString() + "&docId=" + doc.Id;
+                txtVehicleNumber.Text = doc.VehicleNumber;
+                string imageHandlerUrl = PageKeys.GetImageHandlerUrl(PageKeys.ImageHandlerActions.Document);
+                imgPreviewVehPic1.ImageUrl = imageHandlerUrl + "type="+DocumentType.VehicleImage1.ToString()+"&docId="+doc.Id;
+                imgPreviewVehPic2.ImageUrl = imageHandlerUrl + "type=" + DocumentType.VehicleImage2.ToString() + "&docId=" + doc.Id;
+                imgPreviewLicense.ImageUrl = imageHandlerUrl + "type=" + DocumentType.LicenseImage.ToString() + "&docId=" + doc.Id;
 
 
                 pnlDriverDocuments.Enabled = true;
@@ -103,6 +111,7 @@ namespace motor.web.user
                 doc.UserId = GetLoggedInUser().Id;
                 doc.LicenseNumber = txtLicenseNumber.Text;
                 doc.SSN = txtSSN.Text;
+                doc.VehicleNumber = txtVehicleNumber.Text;
                 doc.Status = (short)DocumentStatus.Pending;
                 userService.InsertDocumentInfo(doc);
             }
@@ -110,6 +119,7 @@ namespace motor.web.user
             {
                 doc.LicenseNumber = txtLicenseNumber.Text;
                 doc.SSN = txtSSN.Text;
+                doc.VehicleNumber = txtVehicleNumber.Text;
                 userService.UpdateDocumentInfo(doc);
             }
             lblMessage.Text = "Document information saved successfully.";
@@ -118,13 +128,13 @@ namespace motor.web.user
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
-                LoadDriverDocument();
+                LoadDriverDocuments();
         }
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
             SaveDocumentInfo();
-            LoadDriverDocument();
+            LoadDriverDocuments();
         }
 
         protected void btnUploadDocument_Click(object sender, EventArgs e)
@@ -132,7 +142,7 @@ namespace motor.web.user
             if (Page.IsValid)
                 SaveDocumentImage((Button)sender);
 
-            LoadDriverDocument();
+            LoadDriverDocuments();
         }
 
         protected void customVal_ServerValidate(object source, ServerValidateEventArgs args)

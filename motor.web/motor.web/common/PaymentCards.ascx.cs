@@ -93,15 +93,14 @@ namespace motor.web.common
         protected void grdPaymentCards_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             var row = ((Button)e.CommandSource).NamingContainer as GridViewRow;
-            PaymentCardResponseData data = row.DataItem as PaymentCardResponseData;
+            
             long cardId = Convert.ToInt64(e.CommandArgument);
             if(e.CommandName== "editCard")
             {
-                txtCardName.Text = data.CardName;
-                txtCardNumber.Text = data.CardNumber;
-                txtCVV.Text = data.CVV;
-                ddlMonth.SelectedValue = data.ExpiryMonth.ToString();
-                ddlYear.SelectedValue = data.ExpiryYear.ToString();
+                txtCardName.Text = row.Cells[1].Text;
+                txtCardNumber.Text = row.Cells[0].Text;
+                ddlMonth.SelectedValue = row.Cells[2].Text;
+                ddlYear.SelectedValue = row.Cells[3].Text;
 
             }
             else if(e.CommandName =="deleteCard")

@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace motor.web {
+namespace motor.web.admin {
     
     
     public partial class admin {

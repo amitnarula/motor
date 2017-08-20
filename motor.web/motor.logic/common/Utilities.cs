@@ -10,12 +10,27 @@ using System.Threading.Tasks;
 
 namespace motor.logic.common
 {
+    public enum EmailTemplate
+    {
+        UserActivation,
+        DocumentsReceived,
+        DocumentsUploadedByDriver,
+        DocumentsVerified,
+        DocumentsRejected,
+        ScheduleAnInterview
+    }
+    public enum EmailTemplateParams
+    {
+        ActivationUrl,
+        InterviewDate
+    }
+
     public enum UserType
     {
-        SuperAdmin=0,
+        SuperAdmin = 0,
         Supervisor = 1,
-        Rider =2,
-        Driver=3
+        Rider = 2,
+        Driver = 3
     }
 
     public enum DocumentType
@@ -28,7 +43,9 @@ namespace motor.logic.common
     public enum DocumentStatus
     {
         Pending,
-        Verified
+        Verified,
+        InterviewScheduled,
+        Rejected
     }
 
     public class CommonUtils
@@ -38,7 +55,7 @@ namespace motor.logic.common
             byte[] stringByteArray = System.Text.Encoding.UTF8.GetBytes(stringValue);
             return Convert.ToBase64String(stringByteArray);
         }
-        
+
         public static string DecryptParameter(string encryptedValue)
         {
             byte[] encodedDataAsBytes = Convert.FromBase64String(encryptedValue);
@@ -89,9 +106,49 @@ namespace motor.logic.common
             return cipherText;
         }
 
+        private static void SetEmailSubjectAndBody(EmailTemplate template, string firstName, string lastName, out string subject, out string emailBody)
+        {
+            subject = "A general subject";
+            emailBody = "Hello " + firstName + "," + firstName + "<br/><br/>";
+            switch (template)
+            {
+                case EmailTemplate.UserActivation:
+                    subject = "Account activation";
+                    emailBody += "Please click the following link to activate your account";
+                    emailBody += "<br /><a href = '#" + EmailTemplateParams.ActivationUrl.ToString() + "#'>Click here to activate your account.</a>";
+                    emailBody += "<br /><br />Thanks";
+                    break;
+                case EmailTemplate.DocumentsReceived:
+                    subject = "Documents received";
+                    emailBody += "Thanks for your interest. We have received your documents and we will contact you shortly for further process.";
+                    break;
+                case EmailTemplate.DocumentsVerified:
+                    subject = "Document verification successful and completed";
+                    emailBody += "Congratulations, your document verification has been completed. We will keep you posted.";
+                    break;
+                case EmailTemplate.DocumentsRejected:
+                    subject = "Document verification failed and rejected";
+                    emailBody += "Unfortunately your document verification has been failed and rejected by the administrator.";
+                    break;
+                case EmailTemplate.ScheduleAnInterview:
+                    subject = "Interview scheduled";
+                    emailBody += "Your interview has been scheduled at #" + EmailTemplateParams.InterviewDate.ToString() + "#.";
+                    break;
+                case EmailTemplate.DocumentsUploadedByDriver:
+                    subject = "Documents uploaded by driver";
+                    emailBody = "Hello Administrator, a driver has uploaded his information on the portal.";
+                    emailBody += "<br/><br/>Driver info name:" + firstName + "," + firstName;
+                    break;
+                default:
+                    break;
+            }
+            emailBody += "<br/><br/>Thanks<br/>Administrator";
+
+        }
+
         private static void SendEmail(string to, string body, string subject)
         {
-            using (MailMessage mm = new MailMessage("SENDER@GMAIL.COM", to))
+            using (MailMessage mm = new MailMessage("admin@GMAIL.COM", to))
             {
                 mm.Subject = subject;
                 mm.Body = body;
@@ -99,25 +156,50 @@ namespace motor.logic.common
                 SmtpClient smtp = new SmtpClient();
                 smtp.Host = "smtp.gmail.com";
                 smtp.EnableSsl = true;
-                NetworkCredential NetworkCred = new NetworkCredential("SENDER@GMAIL.COM", "SENDERPASSWORD");
+                NetworkCredential NetworkCred = new NetworkCredential("admin@GMAIL.COM", "adminpassword");
                 //smtp.UseDefaultCredentials = true;
                 smtp.Credentials = NetworkCred;
                 smtp.Port = 587;
-                smtp.Send(mm);
+                Object state = mm;
+               smtp.SendCompleted += new SendCompletedEventHandler(smtp_SendCompleted);
+                try
+                {
+                    smtp.Send(mm);
+                }
+                catch (Exception ex) { throw ex; }
             }
         }
-
-        public static void SendActivationEmail(string firstname, string lastname,string email,string activationUrl)
+        
+        public static void SendEmail(EmailTemplate template, string to, string firstName, string lastName, Dictionary<string, string> parameters = null)
         {
-            string subject = "Account activation";
-            string body = "Hello " + firstname + ","+lastname;
-            body += "<br /><br />Please click the following link to activate your account";
-            body += "<br /><a href = '" + activationUrl + "'>Click here to activate your account.</a>";
-            body += "<br /><br />Thanks";
+            string subject = string.Empty;
+            string emailBody = string.Empty;
 
-            SendEmail(email, body, subject);
-            
-            
+            SetEmailSubjectAndBody(template, firstName, lastName, out subject, out emailBody);
+
+            if (parameters != null)
+            {
+                foreach (var item in parameters)
+                {
+                    emailBody = emailBody.Replace("#" + item.Key + "#", item.Value);
+                }
+            }
+
+            SendEmail(to, emailBody, subject);
+
+            if (template == EmailTemplate.DocumentsReceived)
+            {
+                SetEmailSubjectAndBody(EmailTemplate.DocumentsUploadedByDriver, firstName, lastName, out subject, out emailBody);
+                SendEmail("admin@gmail.com", emailBody, subject);
+            }
         }
+        static void smtp_SendCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
+        {
+            MailMessage mail = e.UserState as MailMessage;
+
+        }
+
     }
+
 }
+

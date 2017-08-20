@@ -22,6 +22,7 @@
           <Property Name="UserId" Type="bigint" Nullable="false" />
           <Property Name="SSN" Type="nvarchar" MaxLength="12" Nullable="false" />
           <Property Name="LicenseNumber" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="VehicleNumber" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="VehiclePicture1" Type="varbinary(max)" />
           <Property Name="VehiclePicture2" Type="varbinary(max)" />
           <Property Name="LicensePicture" Type="varbinary(max)" />
@@ -42,6 +43,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProfilePicture" Type="varbinary(max)" />
           <Property Name="Firstname" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Middlename" Type="nvarchar" MaxLength="50" />
           <Property Name="Lastname" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -165,6 +167,7 @@
           <Property Name="IsEmailVerified" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="DriverDocuments" Relationship="motorModel.FK_DriverDocuments_Users" FromRole="User" ToRole="DriverDocument" />
           <NavigationProperty Name="PaymentCards" Relationship="motorModel.FK_PaymentCards_Users" FromRole="User" ToRole="PaymentCard" />
+          <Property Name="ProfilePicture" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <Association Name="FK_AuthenticationToken_AuthenticationToken">
           <End Type="motorModel.User" Role="User" Multiplicity="1">
@@ -193,6 +196,7 @@
           <Property Name="LicensePicture" Type="Binary" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="User" Relationship="motorModel.FK_DriverDocuments_Users" FromRole="DriverDocument" ToRole="User" />
           <Property Name="Status" Type="Int16" Nullable="false" />
+          <Property Name="VehicleNumber" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_DriverDocuments_Users">
           <End Type="motorModel.User" Role="User" Multiplicity="1">
@@ -252,6 +256,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="motorModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="ProfilePicture" ColumnName="ProfilePicture" />
                 <ScalarProperty Name="IsEmailVerified" ColumnName="IsEmailVerified" />
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
                 <ScalarProperty Name="UserType" ColumnName="UserType" />
@@ -270,6 +275,7 @@
           <EntitySetMapping Name="DriverDocuments">
             <EntityTypeMapping TypeName="motorModel.DriverDocument">
               <MappingFragment StoreEntitySet="DriverDocuments">
+                <ScalarProperty Name="VehicleNumber" ColumnName="VehicleNumber" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="LicensePicture" ColumnName="LicensePicture" />
                 <ScalarProperty Name="VehiclePicture2" ColumnName="VehiclePicture2" />

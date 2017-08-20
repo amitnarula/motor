@@ -41,7 +41,7 @@ namespace motor.service.Controllers
             return null;
         }
 
-        private bool SaveDocumentInfo(string authenticationToken,string ssn,string licenseNumber)
+        private bool SaveDocumentInfo(string authenticationToken,string ssn,string licenseNumber,string vehicleNumber)
         {
             //make sure the user token is for the driver type user
             var user = GetUserByToken(authenticationToken);
@@ -58,6 +58,7 @@ namespace motor.service.Controllers
                 doc.UserId = user.Id;
                 doc.LicenseNumber = licenseNumber;
                 doc.SSN = ssn;
+                doc.VehicleNumber = vehicleNumber;
                 doc.Status = (short)DocumentStatus.Pending;
                 svc.InsertDocumentInfo(doc);
             }
@@ -65,6 +66,7 @@ namespace motor.service.Controllers
             {
                 doc.LicenseNumber = licenseNumber;
                 doc.SSN = ssn;
+                doc.VehicleNumber = vehicleNumber;
                 svc.UpdateDocumentInfo(doc);
             }
             return true;
@@ -82,9 +84,15 @@ namespace motor.service.Controllers
             DriverDocument doc = svc.GetDocumentByUserId(user.Id);
             if (doc == null)
                 throw new Exception("No basic document info was found for the user");
+            bool isDocumentSaved = false;
+            isDocumentSaved = svc.SaveDocumentImage(doc.Id, documentData, docType);
 
-            return svc.SaveDocumentImage(doc.Id, documentData, docType);
-
+            if(doc.VehiclePicture1!=null && doc.VehiclePicture2!=null && doc.LicensePicture!=null) //if all required documents have been uploaded
+            {
+                //Send information email to driver about document receiption confirmation
+                CommonUtils.SendEmail(EmailTemplate.DocumentsReceived, user.Email, user.Firstname, user.Lastname);
+            }
+            return isDocumentSaved;
         }
 
         private bool SaveUserProfile(string authenticationToken, string firstName,string middleName, string lastName, string city)
@@ -98,6 +106,16 @@ namespace motor.service.Controllers
             user.City = city;
             user.Middlename = middleName;
 
+            return svc.UpdateUser(user);
+        }
+
+        private bool SaveProfilePicture(string authenticationToken,byte[] profilePictureData)
+        {
+            var user = GetUserByToken(authenticationToken);
+            if (user == null)
+                throw new ArgumentException("user");
+
+            user.ProfilePicture = profilePictureData;
             return svc.UpdateUser(user);
         }
 
@@ -184,7 +202,7 @@ namespace motor.service.Controllers
         public bool SaveDriverDocumentInfo(DriverDocumentInfoRequest request)
         {
             string authenticationToken = FetchAuthenticationTokenFromRequest();
-            return SaveDocumentInfo(authenticationToken, request.SSN, request.LicenseNumber);
+            return SaveDocumentInfo(authenticationToken, request.SSN, request.LicenseNumber,request.VehicleNumber);
 
         }
 
@@ -201,6 +219,13 @@ namespace motor.service.Controllers
             string authenticationToken = FetchAuthenticationTokenFromRequest();
             return SaveUserProfile(authenticationToken,
                 request.FirstName, request.MiddleName, request.LastName, request.City);
+        }
+
+        [AuthenticateActionFilter]
+        public bool SaveProfilePicture(SaveProfilePictureRequest request)
+        {
+            string authenticationToken = FetchAuthenticationTokenFromRequest();
+            return SaveProfilePicture(authenticationToken, request.ProfilePicture);
         }
 
         [AuthenticateActionFilter]

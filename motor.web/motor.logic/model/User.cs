@@ -34,6 +34,7 @@ namespace motor.logic.model
         public short UserType { get; set; }
         public System.DateTime CreatedOn { get; set; }
         public bool IsEmailVerified { get; set; }
+        public byte[] ProfilePicture { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AuthenticationToken> AuthenticationTokens { get; set; }

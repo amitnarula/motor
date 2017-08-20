@@ -30,6 +30,16 @@
             </td>
         </tr>
         <tr>
+            <td>
+                <asp:Label Text="Vehicle number:" runat="server" /></td>
+            <td>
+                <asp:TextBox runat="server" ID="txtVehicleNumber" MaxLength="10" />
+            </td>
+            <td>
+                <asp:RequiredFieldValidator ErrorMessage="Please enter vehicle number" ValidationGroup="gpBasicInfo" ControlToValidate="txtVehicleNumber" runat="server" />
+            </td>
+        </tr>
+        <tr>
             <td></td>
             <td>
                 <asp:Button Text="Save" ID="btnSave" ValidationGroup="gpBasicInfo" runat="server" OnClick="btnSave_Click" />
@@ -52,7 +62,7 @@
                 <td>
                     <asp:FileUpload ID="filUploadVehPic1" runat="server" />
                     <asp:Button ID="btnUploadVehPic1" runat="server" Text="Upload" OnClick="btnUploadDocument_Click" ValidationGroup="gpUploadImage1" />
-                    <asp:CustomValidator  runat="server" ID="customValImg1" ControlToValidate="filUploadVehPic1" OnServerValidate="customVal_ServerValidate"  ValidationGroup="gpUploadImage1" ErrorMessage="(allowed types: jpg, jpeg, gif, png)" ClientValidationFunction="UploadFileCheck"></asp:CustomValidator>
+                    <asp:CustomValidator  runat="server" ID="customValImg1" ControlToValidate="filUploadVehPic1" OnServerValidate="customVal_ServerValidate"  ValidationGroup="gpUploadImage1" ErrorMessage="(Allowed types: jpg, jpeg, gif, png)" ClientValidationFunction="UploadFileCheck"></asp:CustomValidator>
                     <asp:RequiredFieldValidator ErrorMessage="Please select image" ControlToValidate="filUploadVehPic1" runat="server" ValidationGroup="gpUploadImage1" />
                 </td>
                 <td>
@@ -66,7 +76,7 @@
                 <td>
                     <asp:FileUpload ID="filUploadVehPic2" runat="server" />
                     <asp:Button ID="btnUploadVehPic2" runat="server" Text="Upload" OnClick="btnUploadDocument_Click" ValidationGroup="gpUploadImage2" />
-                    <asp:CustomValidator runat="server" ID="customValImg2" ControlToValidate="filUploadVehPic2"  OnServerValidate="customVal_ServerValidate"  ValidationGroup="gpUploadImage2" ErrorMessage="(allowed types: jpg, jpeg, gif, png)" ClientValidationFunction="UploadFileCheck"></asp:CustomValidator>
+                    <asp:CustomValidator runat="server" ID="customValImg2" ControlToValidate="filUploadVehPic2"  OnServerValidate="customVal_ServerValidate"  ValidationGroup="gpUploadImage2" ErrorMessage="(Allowed types: jpg, jpeg, gif, png)" ClientValidationFunction="UploadFileCheck"></asp:CustomValidator>
                     
                     <asp:RequiredFieldValidator ErrorMessage="Please select image" ControlToValidate="filUploadVehPic2" runat="server" ValidationGroup="gpUploadImage2" />
                 </td>
@@ -81,7 +91,7 @@
                 <td>
                     <asp:FileUpload ID="filUploadLicPic" runat="server" />
                     <asp:Button ID="btnUploadLicenseCopy" runat="server" Text="Upload" OnClick="btnUploadDocument_Click" ValidationGroup="gpUploadImage3" />
-                    <asp:CustomValidator runat="server" ID="customValImg3" ControlToValidate="filUploadLicPic" OnServerValidate="customVal_ServerValidate" ValidationGroup="gpUploadImage3" ErrorMessage="(allowed types: jpg, jpeg, gif, png)" ClientValidationFunction="UploadFileCheck"></asp:CustomValidator>
+                    <asp:CustomValidator runat="server" ID="customValImg3" ControlToValidate="filUploadLicPic" OnServerValidate="customVal_ServerValidate" ValidationGroup="gpUploadImage3" ErrorMessage="(Allowed types: jpg, jpeg, gif, png)" ClientValidationFunction="UploadFileCheck"></asp:CustomValidator>
                     
                     <asp:RequiredFieldValidator ErrorMessage="Please select image" ControlToValidate="filUploadLicPic" runat="server" ValidationGroup="gpUploadImage3" />
                 </td>

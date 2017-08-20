@@ -7,7 +7,18 @@
             <col width="20%" />
             <col width="80%" />
         </colgroup>
-       
+       <tr>
+            <td>
+                <asp:Label Text="Photo:" runat="server" /> </td>
+            <td>
+                <asp:Image ID="imgPPPreview" runat="server" Height="150px" Width="120px" /><br />
+                <asp:FileUpload ID="ppFileUpload" runat="server" />
+                    <asp:Button ID="btnPPUpload" runat="server" Text="Upload" OnClick="btnPPUpload_Click" ValidationGroup="gpPPUpload" /><br />
+                    <asp:CustomValidator  runat="server" ID="customValPP" ControlToValidate="ppFileUpload" OnServerValidate="customValPP_ServerValidate"  ValidationGroup="gpPPUpload" ErrorMessage="(Allowed types: jpg, jpeg, gif, png)" 
+                        ClientValidationFunction="UploadFileCheck"></asp:CustomValidator><br />
+                    <asp:RequiredFieldValidator ErrorMessage="Please select image" Display="Dynamic" ControlToValidate="ppFileUpload" runat="server" ValidationGroup="gpPPUpload" />
+            </td>
+        </tr>
         <tr>
             <td>
                 <asp:Label Text="Firstname:" runat="server" /> </td>
@@ -502,7 +513,7 @@
         <tr>
             <td></td>
             <td>
-                <asp:Button Text="Change password:" ID="btnChangePassword" runat="server" ValidationGroup="gpChangePassword" OnClick="btnChangePassword_Click" /> </td>
+                <asp:Button Text="Change password" ID="btnChangePassword" runat="server" ValidationGroup="gpChangePassword" OnClick="btnChangePassword_Click" /> </td>
         </tr>
         
         <tr>
@@ -512,4 +523,14 @@
         </tr>
         
     </table>
+     <script type="text/javascript">
+        function UploadFileCheck(source, arguments) {
+            var sFile = arguments.Value;
+            arguments.IsValid = ((sFile.match(/\.jpe?g$/i)) ||
+                (sFile.match(/\.gif$/i)) ||
+                (sFile.match(/\.bmp$/i)) ||
+                (sFile.match(/\.tif?f$/i)) ||
+                (sFile.match(/\.png$/i)));
+        }
+    </script>
 </asp:Content>

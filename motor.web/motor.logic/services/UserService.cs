@@ -39,7 +39,9 @@ namespace motor.logic.services
             bool isUserAdded = usrMgmt.Add(obj);
             if (isUserAdded)
             {
-                //TODO:CommonUtils.SendActivationEmail(obj.Firstname,obj.Lastname,obj.Email, activationUrl);
+                Dictionary<string,string> parameters = new Dictionary<string, string>();
+                parameters.Add(EmailTemplateParams.ActivationUrl.ToString(), activationUrl);
+                CommonUtils.SendEmail(EmailTemplate.UserActivation, obj.Email, obj.Firstname, obj.Lastname, parameters);
             }
             return isUserAdded;
         }
@@ -76,6 +78,18 @@ namespace motor.logic.services
             isSaved = docMgmt.Update(obj);
 
             return isSaved;
+        }
+
+        public bool UpdateDocumentStatus(long docId,DocumentStatus status)
+        {
+            DriverDocument doc = docMgmt.GetById(docId);
+            doc.Status = (short)status;
+            return docMgmt.Update(doc);
+        }
+
+        public DriverDocument GetDocumentById(long id)
+        {
+            return docMgmt.GetById(id);
         }
 
         public IEnumerable<DriverDocument> GetAllDocuments()
@@ -122,6 +136,14 @@ namespace motor.logic.services
                     break;
             }
             return bytes;
+        }
+
+        public byte[] GetProfileImage(long userId)
+        {
+            var user = usrMgmt.GetById(userId);
+            if (user != null)
+                return user.ProfilePicture;
+            return null;
         }
 
         public bool AddUpdateAuthenticationToken(AuthenticationToken token)
