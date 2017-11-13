@@ -148,7 +148,7 @@ namespace motor.logic.common
 
         private static void SendEmail(string to, string body, string subject)
         {
-            using (MailMessage mm = new MailMessage("admin@GMAIL.COM", to))
+            using (MailMessage mm = new MailMessage("USERNAME@gmail.com", to))
             {
                 mm.Subject = subject;
                 mm.Body = body;
@@ -156,7 +156,7 @@ namespace motor.logic.common
                 SmtpClient smtp = new SmtpClient();
                 smtp.Host = "smtp.gmail.com";
                 smtp.EnableSsl = true;
-                NetworkCredential NetworkCred = new NetworkCredential("admin@GMAIL.COM", "adminpassword");
+                NetworkCredential NetworkCred = new NetworkCredential("USERNAME@gmail.com", "PASSWORD");
                 //smtp.UseDefaultCredentials = true;
                 smtp.Credentials = NetworkCred;
                 smtp.Port = 587;
